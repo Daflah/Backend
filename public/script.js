@@ -209,3 +209,30 @@ $(document).ready(function() {
       });
   });
 });
+
+
+
+
+
+// Login Register
+const wrapper = document.querySelector('.login-wrapper');
+const loginLink = document.querySelector('.login-link');
+const registerLink = document.querySelector('.register-link');
+const btnPopup = document.querySelector('.btnlogin-popup');
+const iconClose = document.querySelector('.icon-close');
+
+registerLink.addEventListener('click', () => {
+    wrapper.classList.add('active-pop');
+});
+
+loginLink.addEventListener('click', () => {
+    wrapper.classList.remove('active-pop');
+});
+
+btnPopup.addEventListener('click', () => {
+    wrapper.classList.add('active-popup');
+});
+
+iconClose.addEventListener('click', () => {
+    wrapper.classList.remove('active-popup');
+});
