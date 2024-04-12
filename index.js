@@ -55,7 +55,6 @@ app.post('/', async (req, res) => {
   }
 });
 
-
 app.get('/', async (req, res) => {
   try {
     const todoListItems = await TodoListItem.find({});
