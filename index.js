@@ -7,7 +7,6 @@ const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
 const Data = require('./models/Data'); // Pastikan path-nya sesuai
 
-dotenv.config()
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log(`MongoDB connected at ${process.env.MONGO_URL}`);
@@ -143,7 +142,6 @@ app.post('/', async (req, res) => {
     res.status(500).send('Gagal menyimpan data.');
   }
 });
-
 
 app.get('/', async (req, res) => {
   try {
