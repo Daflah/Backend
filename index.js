@@ -1,10 +1,11 @@
 const express = require("express");
-const bodyParser = require('body-parser'); // Test
+const bodyParser = require('body-parser');
 const app = express();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
+const Data = require('./models/Data'); // Pastikan path-nya sesuai
 
 dotenv.config()
 
@@ -20,7 +21,7 @@ const dataSchema = new mongoose.Schema({
   name: String,
   email: String
 });
-const Data = mongoose.model('Data', dataSchema);
+// const Data = mongoose.model('Data', dataSchema);
 
 // Middleware untuk parsing body dari permintaan POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,6 +38,93 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   } catch(error){
 //     console.error(error);
 //     res.status(500).send("Terjadi kesalahan saat menyimpan email")
+//   }
+// });
+
+// Endpoint untuk pendaftaran pengguna
+app.post("/register", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    // Cari pengguna dengan email yang sama
+    const existingUser = await Data.findOne({ email: email });
+    if (existingUser) {
+      // Jika email sudah digunakan, kirimkan pesan kesalahan
+      return res.status(400).send('Email sudah digunakan, silakan gunakan email lain.');
+    }
+    // Buat pengguna baru
+    const newUser = new Data({
+      name: username,
+      email: email,
+      password: password
+    });
+    // Simpan pengguna baru ke dalam database
+    const savedUser = await newUser.save();
+    console.log('Data pengguna berhasil disimpan:', savedUser);
+    // res.send('Pendaftaran berhasil.');
+    res.redirect('/dashboard'); // Mengarahkan pengguna ke halaman dashboard setelah pendaftaran berhasil
+
+  } catch (error) {
+    console.error('Gagal mendaftar:', error);
+    res.status(500).send('Gagal mendaftar.');
+  }
+});
+
+// Endpoint untuk login
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // Cari pengguna berdasarkan email
+    const user = await Data.findOne({ email: email });
+    if (!user) {
+      // Jika pengguna tidak ditemukan, kirimkan pesan kesalahan
+      return res.status(404).send('Pengguna tidak ditemukan.');
+    }
+    // Validasi password
+    if (user.password !== password) {
+      // Jika password tidak cocok, kirimkan pesan kesalahan
+      return res.status(401).send('Password salah.');
+    }
+    // Jika berhasil, kirimkan pesan login berhasil
+    res.send('Login berhasil.');
+    res.redirect('/dashboard'); // Mengarahkan pengguna ke halaman dashboard setelah pendaftaran berhasil
+  } catch (error) {
+    console.error('Gagal melakukan login:', error);
+    res.status(500).send('Gagal melakukan login.');
+  }
+});
+
+// Tambahkan penanganan permintaan POST untuk login
+// app.post("/login", async (req, res) => {
+//   try {
+//       const { email, password } = req.body;
+//       const newUser = new Data({
+//           email: email,
+//           password: password
+//       });
+//       const savedUser = await newUser.save();
+//       console.log('Data pengguna berhasil disimpan:', savedUser);
+//       res.send('Login berhasil.');
+//   } catch (error) {
+//       console.error('Gagal melakukan login:', error);
+//       res.status(500).send('Gagal melakukan login.');
+//   }
+// });
+
+// // Tambahkan penanganan permintaan POST untuk daftar
+// app.post("/register", async (req, res) => {
+//   try {
+//       const { username, email, password } = req.body;
+//       const newUser = new Data({
+//           name: username,
+//           email: email,
+//           password: password
+//       });
+//       const savedUser = await newUser.save();
+//       console.log('Data pengguna berhasil disimpan:', savedUser);
+//       res.send('Pendaftaran berhasil.');
+//   } catch (error) {
+//       console.error('Gagal mendaftar:', error);
+//       res.status(500).send('Gagal mendaftar.');
 //   }
 // });
 
@@ -95,6 +183,9 @@ app.get('/index', async (req, res) => {
   }
 });
 
+// Login
+
+
 
 const port = process.env.PORT || 5000;
 
@@ -116,9 +207,17 @@ app.get("/index", (req,res) => {
   res.render("index.ejs");
 });
 
+app.get("/register", (req,res) => {
+  res.render("index.ejs");
+});
+
 // kalau misal memakai banyak html bisa pake
 app.get("/bla", (req,res) =>{
-  res.render("bla.ejs");
+  res.render("index.ejs");
+});
+
+app.get("/dashboard", (req,res) =>{
+  res.render("index.ejs");
 });
 
 app.listen(port, () => {
