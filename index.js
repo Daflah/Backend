@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
 
-dotenv.config()
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log(`MongoDB connected at ${process.env.MONGO_URL}`);
