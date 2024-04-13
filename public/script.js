@@ -142,53 +142,53 @@ document.addEventListener('DOMContentLoaded', function () {
   // Ambil semua elemen gambar
   const images = document.querySelectorAll('.promo-list img');
 
-  // Tambahkan event listener untuk setiap gambar
-  document.addEventListener('DOMContentLoaded', function() {
-    const promoCards = document.querySelectorAll('.promo-card');
   
-    promoCards.forEach(card => {
-      card.addEventListener('click', () => {
-        fetch('/index', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title: 'Successfully redeemed' // Data yang akan disimpan di MongoDB
-          })
-        })
-        .then(response => {
-          if (response.ok) {
-            console.log('Successfully redeemed!');
-          } else {
-            console.error('Failed to redeem:', response.statusText);
-            alert('Failed to redeem. Please try again.');
-          }
-        })
-        .catch(error => {
-          console.error('Failed to redeem:', error);
-          alert('Failed to redeem. Please try again.');
-        });
-      });
+  document.querySelectorAll('.promo-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      alert('Successfully redeemed!');
     });
   });
+
+
+
+function closePopup() {
+    var popup = document.getElementById("popup");
+    popup.style.display = "none";
+}
+
+
+// Tambahkan event listener ke tombol close
+document.getElementById("popup-close").addEventListener("click", closePopup);
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Cek apakah pengguna sudah melihat popup sebelumnya
+    var hasSeenPopup = localStorage.getItem("hasSeenPopup");
+  
+    // Jika belum melihat popup sebelumnya, tampilkan popup
+    if (!hasSeenPopup) {
+      openPopup();
+      // Setelah tampilkan popup, tandai bahwa pengguna telah melihatnya
+      localStorage.setItem("hasSeenPopup", true);
+    }
+  });
+  
+  // Fungsi untuk menampilkan popup
+  function openPopup() {
+    var popup = document.getElementById("popup");
+    popup.style.display = "block";
+  }
+  
+  // Fungsi untuk menutup popup
+  function closePopup() {
+    var popup = document.getElementById("popup");
+    popup.style.display = "none";
+  }
+  
+  // Tambahkan event listener ke tombol close
+  document.getElementById("popup-close").addEventListener("click", closePopup);
   
 
-
-
-
-
-// Fungsi untuk menutup pop-up
-function closePopup() {
-  var popup = document.getElementById('popup');
-  popup.classList.remove('active');
-}
-
-// Menampilkan pop-up saat halaman dimuat
-window.onload = function() {
-  var popup = document.getElementById('popup');
-  popup.classList.add('active');
-}
 
   // Initial hide for all elements except the first 3
   hideAllElements();
@@ -311,35 +311,8 @@ var slideIndex = 1;
             dots[slideIndex - 1].className += " active";
         }
 
+
         
-        $('.promo-card').click(function() {
-          // Kirim permintaan ke server untuk memproses redeem
-          fetch('/index', { // Mengubah endpoint menjadi '/index'
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                      title: 'Title of Redeemed Item', // Misalnya, Anda dapat menentukan judul yang tetap untuk item yang ditebus
-                      completed: false, // Anda juga dapat menentukan nilai lain sesuai kebutuhan
-                      date: Date.now() // Tanggal saat ini
-                  })
-              })
-              .then(response => {
-                  if (response.ok) {
-                      // Jika permintaan berhasil, tampilkan notifikasi
-                      alert('Successfully redeemed!');
-                  } else {
-                      // Jika ada kesalahan dalam permintaan, tangani kesalahan
-                      console.error('Failed to redeem:', response.statusText);
-                      alert('Failed to redeem. Please try again.');
-                  }
-              })
-              .catch(error => {
-                  console.error('Failed to redeem:', error);
-                  alert('Failed to redeem. Please try again.');
-              });
-        });
 
 // Test JS
 $(document).ready(function() {
