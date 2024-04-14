@@ -197,6 +197,10 @@
                         <p>Belum punya akun bro? <a href="#" class="register-link"> Daftar </a></p>
                     </div>
                 </form>
+                <!-- Tambahkan elemen untuk menampilkan pesan kesalahan -->
+                <% if (typeof errorMessage !== 'undefined') { %>
+                    <p class="error-message"><%= errorMessage %></p>
+                <% } %>
             </div>
     
             <!-- Formulir pendaftaran -->

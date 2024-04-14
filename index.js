@@ -77,7 +77,7 @@ app.post("/login", async (req, res) => {
     const user = await Data.findOne({ email: email });
     if (!user) {
       // Jika pengguna tidak ditemukan, kirimkan pesan kesalahan
-      return res.status(404).send('Pengguna tidak ditemukan.');
+      return res.status(404).send('Akun tidak ditemukan.');
     }
     // Validasi password
     if (user.password !== password) {
@@ -85,13 +85,14 @@ app.post("/login", async (req, res) => {
       return res.status(401).send('Password salah.');
     }
     // Jika berhasil, kirimkan pesan login berhasil
-    res.send('Login berhasil.');
-    res.redirect('/dashboard'); // Mengarahkan pengguna ke halaman dashboard setelah pendaftaran berhasil
+    // res.send('Login berhasil.');
+    res.redirect('/dashboard'); // Mengarahkan pengguna ke halaman dashboard setelah login berhasil
   } catch (error) {
     console.error('Gagal melakukan login:', error);
     res.status(500).send('Gagal melakukan login.');
   }
 });
+
 
 // Tambahkan penanganan permintaan POST untuk login
 // app.post("/login", async (req, res) => {
