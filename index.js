@@ -220,6 +220,10 @@ app.get("/dashboard", (req,res) =>{
   res.render("index.ejs");
 });
 
+app.get("/admin", (req,res) =>{
+  res.render("index1.ejs");
+});
+
 app.listen(port, () => {
   console.log(`Webserver app listening port ${port}`);
 });
