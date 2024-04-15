@@ -184,18 +184,14 @@ app.get('/index', async (req, res) => {
   }
 });
 
-// Login
-
-
-
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use("/api/todolistitems", require("./routes/api/todolistitems"));
 
-//ejs
 app.set("view engine", "ejs");
 // app.set("views", path.join(_dirname, "views"));
+
 
 //static
 app.use(express.static("public"));
@@ -212,18 +208,48 @@ app.get("/register", (req,res) => {
   res.render("index.ejs");
 });
 
-// kalau misal memakai banyak html bisa pake
-app.get("/bla", (req,res) =>{
-  res.render("index.ejs");
-});
-
-app.get("/dashboard", (req,res) =>{
+app.get("/userdashboard", (req,res) =>{
   res.render("index.ejs");
 });
 
 app.get("/admin", (req,res) =>{
   res.render("index1.ejs");
 });
+
+// Test
+app.get("/admin/charts", (req,res) =>{
+  res.render("charts.ejs");
+});
+
+app.get("/tables", (req,res) =>{
+  res.render("tables.ejs");
+});
+
+app.get("/admin/registermin", (req,res) =>{
+  res.render("register.ejs");
+});
+
+app.get(" /layo", (req,res) =>{
+  res.render("layout-static.ejs");
+});
+
+app.get("/login", (req,res) =>{
+  res.render("login.ejs");
+});
+
+app.get("/admin1", (req,res) =>{
+  res.render("401.ejs");
+});
+
+app.get("/admin2", (req,res) =>{
+  res.render("404.ejs");
+});
+
+app.get("/admin3", (req,res) =>{
+  res.render("500.ejs");
+});
+
+
 
 app.listen(port, () => {
   console.log(`Webserver app listening port ${port}`);
