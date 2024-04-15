@@ -1916,9 +1916,13 @@ address {
 
 .promo-list li:nth-child(1),
 .promo-list li:nth-child(2),
-.promo-list li:nth-child(3){
+.promo-list li:nth-child(3),
+.promo-list li:nth-child(4),
+.promo-list li:nth-child(5),
+.promo-list li:nth-child(6) {
   display: flex;
 }
+
 
 
 .promo-list,
