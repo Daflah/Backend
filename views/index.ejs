@@ -280,42 +280,50 @@
         - #TOUR SEARCH
       -->
 
-      <section class="tour-search">
-        <div class="container">
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tour Search</title>
+        <link rel="stylesheet" href="styles.css">
+      </head>
+      <body>
+        <section class="tour-search">
+          <div class="container">
+            <form action="/inquire-now" class="tour-search-form" method="POST" autocomplete="off">
+            
+              <div class="input-wrapper">
+                <label for="destination" class="input-label">Search Destination*</label>
+                <input type="text" name="destination" id="destination" required placeholder="Enter Destination" class="input-field">
+              </div>
+            
+              <div class="input-wrapper">
+                <label for="people" class="input-label">Pax Number*</label>
+                <input type="number" name="people" id="people" required placeholder="No. of People" class="input-field">
+              </div>
+            
+              <div class="input-wrapper">
+                <label for="checkin" class="input-label">Check-in Date**</label>
+                <input type="date" name="checkin" id="checkin" required class="input-field">
+              </div>
+            
+              <div class="input-wrapper">
+                <label for="checkout" class="input-label">Checkout Date*</label>
+                <input type="date" name="checkout" id="checkout" required class="input-field">
+              </div>
+            
+              <button type="submit" class="btn btn-secondary">Inquire now</button>
+            
+            </form>
+          </div>
+        </section>
+        
+        <script src="scripts.js"></script>
+      </body>
+      </html>
 
-          <form action="" class="tour-search-form">
-
-            <div class="input-wrapper">
-              <label for="destination" class="input-label">Search Destination*</label>
-
-              <input type="text" name="destination" id="destination" required placeholder="Enter Destination"
-                class="input-field">
-            </div>
-
-            <div class="input-wrapper">
-              <label for="people" class="input-label">Pax Number*</label>
-
-              <input type="number" name="people" id="people" required placeholder="No.of People" class="input-field">
-            </div>
-
-            <div class="input-wrapper">
-              <label for="checkin" class="input-label">Checkin Date**</label>
-
-              <input type="date" name="checkin" id="checkin" required class="input-field">
-            </div>
-
-            <div class="input-wrapper">
-              <label for="checkout" class="input-label">Checkout Date*</label>
-
-              <input type="date" name="checkout" id="checkout" required class="input-field">
-            </div>
-
-            <button type="submit" class="btn btn-secondary">Inquire now</button>
-
-          </form>
-
-        </div>
-      </section>
+      
 
     
       <!-- 
@@ -327,7 +335,7 @@
 
       <p class="section-subtitle">Ancol Promotion</p>
 
-      <h2 class="h2 section-title">PROMOTION IN TOWN!!!</h2>
+      <h2 class="h2 section-title">PROMOTION IN TOWN</h2>
 
       <p class="section-text">
         Liburan bersama keluarga menjadi lebih asik dan hemat dengan promosi menarik.
@@ -380,7 +388,7 @@
               
 
               <p class="card-text">
-                Lebaran Bareng Dolphi Di Samudra Ancol Bonus Main Ke Jakarta Bird Land!
+                Lebaran di Samudra Ancol dan ada Bonus Menarik!
               </p>
 
             </div>
@@ -406,7 +414,7 @@
               
 
               <p class="card-text">
-                Bayar Sekali Gratis Rekreasi Setahun ke Sea World Ancol Dengan Annual Pass!
+                Annual Pass Sea World Ancol: Bayar Sekali, Rekreasi Setahun Gratis!
               </p>
               
 
@@ -432,7 +440,7 @@
               
 
               <p class="card-text">
-                Annual Pass Atlantis Hanya 165rb! Bisa Berenang dan Main Sepuasnya Setahun
+                Annual Pass Atlantis Cuma 165rb! Berenang & Main Sepuasnya!
               </p>
 
             </div>

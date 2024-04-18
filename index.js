@@ -7,6 +7,9 @@ const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
 const Data = require('./models/Data'); // Pastikan path-nya sesuai
 
+// Import model dan fungsi dari file destination.js
+const { createDestinationModel, saveDestination } = require('./models/DestinationModel');
+
 dotenv.config()
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
@@ -14,6 +17,9 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 }).catch((err) => {
   console.log(err.message);
 });
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Test
 // Skema dan model untuk data yang akan disimpan
@@ -61,7 +67,7 @@ app.post("/register", async (req, res) => {
     const savedUser = await newUser.save();
     console.log('Data pengguna berhasil disimpan:', savedUser);
     // res.send('Pendaftaran berhasil.');
-    res.redirect('/dashboard'); // Mengarahkan pengguna ke halaman dashboard setelah pendaftaran berhasil
+    res.redirect('/userdashboard'); // Mengarahkan pengguna ke halaman dashboard setelah pendaftaran berhasil
 
   } catch (error) {
     console.error('Gagal mendaftar:', error);
@@ -86,7 +92,7 @@ app.post("/login", async (req, res) => {
     }
     // Jika berhasil, kirimkan pesan login berhasil
     // res.send('Login berhasil.');
-    res.redirect('/dashboard'); // Mengarahkan pengguna ke halaman dashboard setelah login berhasil
+    res.redirect('/userdashboard'); // Mengarahkan pengguna ke halaman dashboard setelah login berhasil
   } catch (error) {
     console.error('Gagal melakukan login:', error);
     res.status(500).send('Gagal melakukan login.');
@@ -173,6 +179,34 @@ app.post('/index', async (req, res) => {
   }
 });
 
+module.exports = {
+  createDestinationModel,
+  saveDestination
+};
+
+// Di sini Anda tidak perlu mengubah kode di destination.js
+
+// Di dalam penanganan permintaan POST untuk rute "/inquire-now"
+app.post("/inquire-now", async (req, res) => {
+  try {
+    const { destination, people, checkin, checkout } = req.body;
+
+    // Buat model data tujuan menggunakan fungsi createDestinationModel
+    const destinationModel = createDestinationModel(destination, people, checkin, checkout);
+
+    // Simpan data tujuan menggunakan fungsi saveDestination
+    await saveDestination(destinationModel);
+
+    // Berikan respons ke pengguna bahwa data telah disimpan
+    res.status(200).send('Data tujuan berhasil disimpan.');
+
+  } catch (error) {
+    // Tangani kesalahan jika penyimpanan data gagal
+    console.error('Gagal menyimpan data tujuan:', error);
+    res.status(500).send('Gagal menyimpan data tujuan.');
+  }
+});
+
 // Endpoint untuk mendapatkan daftar item dalam to-do list
 app.get('/index', async (req, res) => {
   try {
@@ -215,6 +249,11 @@ app.get("/userdashboard", (req,res) =>{
 app.get("/admin", (req,res) =>{
   res.render("index1.ejs");
 });
+
+// ini nambah
+// Endpoint untuk menyimpan promo diskon yang dipilih oleh pengguna
+
+
 
 // Test
 app.get("/admin/charts", (req,res) =>{
