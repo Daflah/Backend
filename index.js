@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
 const Data = require('./models/Data'); // Pastikan path-nya sesuai
+const Subscribe = require('./models/subscribe'); // Sesuaikan pathnya jika diperlukan
+
 
 // Import model dan fungsi dari file destination.js
 const { createDestinationModel, saveDestination } = require('./models/DestinationModel');
@@ -76,9 +78,21 @@ app.post("/register", async (req, res) => {
 });
 
 // Endpoint untuk login
+// Endpoint untuk login
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    
+    // Periksa apakah email adalah email admin
+    if (email === 'admin@example.com') {
+      // Validasi password untuk akun admin
+      if (password !== 'adminpass') {
+        return res.status(401).send('Password salah untuk akun admin.');
+      }
+      // Jika email adalah email admin dan password sesuai, langsung redirect ke halaman admin
+      return res.redirect('/admin');
+    }
+
     // Cari pengguna berdasarkan email
     const user = await Data.findOne({ email: email });
     if (!user) {
@@ -98,6 +112,8 @@ app.post("/login", async (req, res) => {
     res.status(500).send('Gagal melakukan login.');
   }
 });
+
+
 
 
 // Tambahkan penanganan permintaan POST untuk login
@@ -198,7 +214,10 @@ app.post("/inquire-now", async (req, res) => {
     await saveDestination(destinationModel);
 
     // Berikan respons ke pengguna bahwa data telah disimpan
-    res.status(200).send('Data tujuan berhasil disimpan.');
+    
+
+    // Redirect ke halaman user dashboard
+    res.redirect('/userdashboard');
 
   } catch (error) {
     // Tangani kesalahan jika penyimpanan data gagal
@@ -225,6 +244,30 @@ app.use("/api/todolistitems", require("./routes/api/todolistitems"));
 
 app.set("view engine", "ejs");
 // app.set("views", path.join(_dirname, "views"));
+
+app.post('/subscribe', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Buat objek EmailSubscription baru
+    const newSubscription = new Subscribe({
+      email: email
+    });
+
+    // Simpan langganan email ke dalam database
+    const savedSubscription = await newSubscription.save();
+
+    res.redirect('/userdashboard');
+
+    // Kirim respons berhasil
+    // res.status(200).send('Langganan email berhasil disimpan.');
+  } catch (error) {
+    // Tangani kesalahan
+    console.error('Gagal menyimpan langganan email:', error);
+    res.status(500).send('Gagal menyimpan langganan email.');
+  }
+});
+
 
 
 //static
