@@ -98,11 +98,49 @@ document.addEventListener('DOMContentLoaded', function () {
   const images = document.querySelectorAll('.promo-list img');
 
   
-  document.querySelectorAll('.promo-card').forEach(function(card) {
-    card.addEventListener('click', function() {
-      alert('Successfully redeemed!');
+  document.querySelectorAll('.promo-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const title = card.dataset.title;
+      const description = card.dataset.description; // Mengambil data description dari atribut data-description
+      const promoCode = card.dataset.promoCode; // Mengambil promo code dari atribut data-promo-code
+  
+      // Menampilkan pesan alert dengan description dan promo code
+      alert(`Successfully redeemed\n${description}\nPromo Code: ${promoCode}`);
     });
   });
+  
+
+  document.querySelectorAll('.promo-card').forEach(card => {
+    card.addEventListener('click', async () => {
+        const title = card.dataset.title;
+        const description = card.dataset.description;
+        const image = card.dataset.image;
+
+        try {
+            const response = await fetch('/redeem-promo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, description, image })
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log(responseData.message); // Tampilkan pesan respons
+                // Di sini Anda dapat menambahkan logika tambahan, seperti menampilkan pesan kepada pengguna bahwa promosi berhasil disimpan
+            } else {
+                console.error('Gagal menyimpan data promosi:', response.statusText);
+                // Di sini Anda dapat menambahkan logika penanganan kesalahan, misalnya menampilkan pesan kesalahan kepada pengguna
+            }
+        } catch (error) {
+            console.error('Gagal menyimpan data promosi:', error);
+            // Di sini Anda dapat menambahkan logika penanganan kesalahan, misalnya menampilkan pesan kesalahan kepada pengguna
+        }
+    });
+});
+
+
 
 
 
