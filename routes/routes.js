@@ -73,62 +73,76 @@ router.get("/edit/:id", async (req, res) => { // Tambahkan async di sini
 
 //update user route 
 
-router.post('/update/:id', upload, (req, res)=> {
-    let id = req.params.id;
-    let new_image = '';
+router.post('/update/:id', upload, async (req, res) => {
+    try {
+        let id = req.params.id;
+        let new_image = '';
 
-    if (req.file){
-        new_image = req.file.filename;
-        try{
-            fs.unlinkSync('./uploads/'+req.body.old_image);
-        } catch(err){
-            console.log(err);
-        }
-    } else{
-        new_image = req.body.old_image;
-    }
-
-    Admin.findByIdAndUpdate(id, {
-        name: req.body.name,
-        email: req.body.email,
-        phone: req.body.phone,
-        image: new_image,
-    }, (err, result)=> {
-        if(err){
-            res.json({message:err.message, type: 'danger'});
+        if (req.file) {
+            new_image = req.file.filename;
+            try {
+                fs.unlinkSync('./uploads/' + req.body.old_image);
+            } catch (err) {
+                console.log(err);
+            }
         } else {
-            req.session.message = {
-                type: 'success',
-                message: 'User updated succesfully!',
-            };
-            res.redirect("/")
+            new_image = req.body.old_image;
         }
-    })
+
+        const updatedAdmin = await Admin.findByIdAndUpdate(id, {
+            name: req.body.name,
+            email: req.body.email,
+            phone: req.body.phone,
+            image: new_image,
+        });
+
+        if (!updatedAdmin) {
+            return res.status(404).json({ message: 'User not found', type: 'danger' });
+        }
+
+        req.session.message = {
+            type: 'success',
+            message: 'User updated successfully!',
+        };
+        res.redirect("/admin");
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
 });
 
 
+
 //Delete user route
-router.get('/delete/:id', (req, res)=>{
-    let id = req.params.id;
-    Admin.findByIdAndRemove(id,(err,result)=> {
-        if(result.image != ''){
-            try{
-                fs.unlinkSync('./uploads/'+result.image);
-            } catch (err){
+router.get('/delete/:id', async (req, res) => {
+    try {
+        let id = req.params.id;
+        const admin = await Admin.findById(id);
+        
+        if (!admin) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (admin.image !== '') {
+            try {
+                fs.unlinkSync('./uploads/' + admin.image);
+            } catch (err) {
                 console.log(err);
             }
         }
-        
-        if(err){
-            res.json({message: err.message});
-        } else {
-            req.session.message = {
-                type: "info",
-                message: "User Deleted Successfully!"
-            };
-            res.redirect("/");
-        }
-    })
-})
+
+        await Admin.deleteOne({ _id: id });
+
+        req.session.message = {
+            type: "info",
+            message: "User Deleted Successfully!"
+        };
+        res.redirect("/admin");
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 module.exports = router;
