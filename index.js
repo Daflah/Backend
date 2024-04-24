@@ -6,6 +6,15 @@ const mongoose = require("mongoose");
 const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
 const Data = require('./models/Data'); // Pastikan path-nya sesuai
+const Subscribe = require('./models/subscribe'); // Sesuaikan pathnya jika diperlukan
+//new
+const session = require('express-session');
+
+
+
+
+// Import model dan fungsi dari file destination.js
+const { createDestinationModel, saveDestination } = require('./models/DestinationModel');
 
 dotenv.config()
 
@@ -14,6 +23,32 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 }).catch((err) => {
   console.log(err.message);
 });
+
+//      db.on("error", (error))
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: false}))
+app.use(express.json());
+
+app.use(
+  session({
+    secret: "my secret key",
+    saveUninitialized: true,
+    resave: false
+  })
+);
+
+app.use((req,res,next) => {
+  res.locals.message = req.session.message;
+  delete req.session.message;
+  next();
+});
+
+app.use(express.static('uploads'));
+
+//routes prefix
+app.use("", require('./routes/routes'))
+
 
 // Test
 // Skema dan model untuk data yang akan disimpan
@@ -41,6 +76,52 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   }
 // });
 
+
+// Endpoint untuk menyimpan promo diskon yang dipilih oleh pengguna
+app.post("/promo-selection", async (req, res) => {
+  try {
+    const { title, description, image } = req.body;
+
+    // Simpan data promosi ke dalam database MongoDB
+    const newPromo = new Promo({
+      title: title,
+      description: description,
+      image: image
+    });
+    const savedPromo = await newPromo.save();
+    console.log('Data promosi berhasil disimpan:', savedPromo);
+
+    // Kirim respons ke pengguna bahwa data promosi berhasil disimpan
+    res.status(200).json({ message: 'Data promosi berhasil disimpan.' });
+  } catch (error) {
+    // Tangani kesalahan jika gagal menyimpan data promosi
+    console.error('Gagal menyimpan data promosi:', error);
+    res.status(500).json({ message: 'Gagal menyimpan data promosi.' });
+  }
+});
+// // Endpoint untuk menyimpan data promosi ke MongoDB
+// app.post("/redeem-promo", async (req, res) => {
+//   try {
+//     const { title, description, image } = req.body;
+    
+//     // Simpan data promosi ke MongoDB
+//     const newPromo = new Promo({
+//       title: title,
+//       description: description,
+//       image: image
+//     });
+//     const savedPromo = await newPromo.save();
+//     console.log('Data promosi berhasil disimpan:', savedPromo);
+
+//     // Berikan respons bahwa data berhasil disimpan
+//     res.status(200).json({ message: 'Data promosi berhasil disimpan ke MongoDB.' });
+//   } catch (error) {
+//     console.error('Gagal menyimpan data promosi:', error);
+//     res.status(500).json({ message: 'Gagal menyimpan data promosi.' });
+//   }
+// });
+
+
 // Endpoint untuk pendaftaran pengguna
 app.post("/register", async (req, res) => {
   try {
@@ -61,7 +142,7 @@ app.post("/register", async (req, res) => {
     const savedUser = await newUser.save();
     console.log('Data pengguna berhasil disimpan:', savedUser);
     // res.send('Pendaftaran berhasil.');
-    res.redirect('/dashboard'); // Mengarahkan pengguna ke halaman dashboard setelah pendaftaran berhasil
+    res.redirect('/userdashboard'); // Mengarahkan pengguna ke halaman dashboard setelah pendaftaran berhasil
 
   } catch (error) {
     console.error('Gagal mendaftar:', error);
@@ -70,9 +151,21 @@ app.post("/register", async (req, res) => {
 });
 
 // Endpoint untuk login
+// Endpoint untuk login
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    
+    // Periksa apakah email adalah email admin
+    if (email === 'admin@example.com') {
+      // Validasi password untuk akun admin
+      if (password !== 'adminpass') {
+        return res.status(401).send('Password salah untuk akun admin.');
+      }
+      // Jika email adalah email admin dan password sesuai, langsung redirect ke halaman admin
+      return res.redirect('/admin');
+    }
+
     // Cari pengguna berdasarkan email
     const user = await Data.findOne({ email: email });
     if (!user) {
@@ -86,12 +179,14 @@ app.post("/login", async (req, res) => {
     }
     // Jika berhasil, kirimkan pesan login berhasil
     // res.send('Login berhasil.');
-    res.redirect('/dashboard'); // Mengarahkan pengguna ke halaman dashboard setelah login berhasil
+    res.redirect('/userdashboard'); // Mengarahkan pengguna ke halaman dashboard setelah login berhasil
   } catch (error) {
     console.error('Gagal melakukan login:', error);
     res.status(500).send('Gagal melakukan login.');
   }
 });
+
+
 
 
 // Tambahkan penanganan permintaan POST untuk login
@@ -128,6 +223,12 @@ app.post("/login", async (req, res) => {
 //       res.status(500).send('Gagal mendaftar.');
 //   }
 // });
+
+
+
+
+
+
 
 app.post('/', async (req, res) => {
   try {
@@ -173,6 +274,37 @@ app.post('/index', async (req, res) => {
   }
 });
 
+module.exports = {
+  createDestinationModel,
+  saveDestination
+};
+
+// Di sini Anda tidak perlu mengubah kode di destination.js
+
+// Di dalam penanganan permintaan POST untuk rute "/inquire-now"
+app.post("/inquire-now", async (req, res) => {
+  try {
+    const { destination, people, checkin, checkout } = req.body;
+
+    // Buat model data tujuan menggunakan fungsi createDestinationModel
+    const destinationModel = createDestinationModel(destination, people, checkin, checkout);
+
+    // Simpan data tujuan menggunakan fungsi saveDestination
+    await saveDestination(destinationModel);
+
+    // Berikan respons ke pengguna bahwa data telah disimpan
+    
+
+    // Redirect ke halaman user dashboard
+    res.redirect('/userdashboard');
+
+  } catch (error) {
+    // Tangani kesalahan jika penyimpanan data gagal
+    console.error('Gagal menyimpan data tujuan:', error);
+    res.status(500).send('Gagal menyimpan data tujuan.');
+  }
+});
+
 // Endpoint untuk mendapatkan daftar item dalam to-do list
 app.get('/index', async (req, res) => {
   try {
@@ -184,18 +316,38 @@ app.get('/index', async (req, res) => {
   }
 });
 
-// Login
-
-
-
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use("/api/todolistitems", require("./routes/api/todolistitems"));
 
-//ejs
 app.set("view engine", "ejs");
-// app.set("views", path.join(_dirname, "views"));
+app.set('views', path.join(__dirname, 'views'));
+
+app.post('/subscribe', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Buat objek EmailSubscription baru
+    const newSubscription = new Subscribe({
+      email: email
+    });
+
+    // Simpan langganan email ke dalam database
+    const savedSubscription = await newSubscription.save();
+
+    res.redirect('/userdashboard');
+
+    // Kirim respons berhasil
+    // res.status(200).send('Langganan email berhasil disimpan.');
+  } catch (error) {
+    // Tangani kesalahan
+    console.error('Gagal menyimpan langganan email:', error);
+    res.status(500).send('Gagal menyimpan langganan email.');
+  }
+});
+
+
 
 //static
 app.use(express.static("public"));
@@ -212,14 +364,53 @@ app.get("/register", (req,res) => {
   res.render("index.ejs");
 });
 
-// kalau misal memakai banyak html bisa pake
-app.get("/bla", (req,res) =>{
+app.get("/userdashboard", (req,res) =>{
   res.render("index.ejs");
 });
 
-app.get("/dashboard", (req,res) =>{
-  res.render("index.ejs");
+app.get("/", (req,res) =>{
+  res.render("index1.ejs");
 });
+
+// ini nambah
+// Endpoint untuk menyimpan promo diskon yang dipilih oleh pengguna
+
+
+
+// Test
+app.get("/admin/charts", (req,res) =>{
+  res.render("charts.ejs");
+});
+
+app.get("/tables", (req,res) =>{
+  res.render("tables.ejs");
+});
+
+app.get("/admin/registermin", (req,res) =>{
+  res.render("register.ejs");
+});
+
+app.get(" /layo", (req,res) =>{
+  res.render("layout-static.ejs");
+});
+
+app.get("/login", (req,res) =>{
+  res.render("login.ejs");
+});
+
+app.get("/admin1", (req,res) =>{
+  res.render("401.ejs");
+});
+
+app.get("/admin2", (req,res) =>{
+  res.render("404.ejs");
+});
+
+app.get("/admin3", (req,res) =>{
+  res.render("500.ejs");
+});
+
+
 
 app.listen(port, () => {
   console.log(`Webserver app listening port ${port}`);

@@ -1781,3 +1781,249 @@ address {
   text-decoration: underline;
 }
 
+.promo-column {
+  width: 25%; /* Each column takes up 25% of the row */
+  box-sizing: border-box; /* Include padding and border in the column's total width */
+  padding: 10px; /* Adjust padding as needed */
+  float: left; /* Float the columns left to make them align horizontally */
+  text-align: center; /* Center align the content within each column */
+  display: inline-block; /* Display columns as inline-block to prevent wrapping */
+}
+
+.promo-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; /* Jarak antar gambar */
+}
+
+.promo-column {
+  width: calc(25% - 20px); /* 25% dari lebar parent - jarak antar gambar */
+  text-align: center;
+}
+
+.promo-column img {
+  width: 100%;
+  height: auto;
+  max-width: 100%; /* Untuk memastikan gambar tidak melebihi lebar parent */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.more-destination-button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Adjust color as needed */
+  color: #fff; /* Adjust text color as needed */
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.more-destination-button:hover {
+  background-color: #0056b3; /* Adjust hover color as needed */
+  cursor: pointer;
+}
+
+/* CSS untuk menampilkan tiga gambar dalam satu baris */
+.promo-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+}
+
+.promo-list li {
+  flex-basis: calc(33.33% - 20px); /* 20px untuk margin antar gambar */
+  margin-bottom: 20px;
+}
+
+.swiper-container {
+  width: 100%;
+  padding: 20px;
+}
+.swiper-slide {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  padding: 20px;
+}
+.swiper-button-next, .swiper-button-prev {
+  color: #fff;
+}
+
+.promo-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  overflow: hidden;
+}
+
+.card-img img {
+  width: 100%;
+  height: auto;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+/* Tambahkan gaya lainnya sesuai kebutuhan */
+/* Pop up styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+/* Other styles */
+/* Tambahkan gaya lainnya sesuai kebutuhan Anda */
+
+
+
+
+.promo { padding-block: var(--section-padding); }
+
+.promo-list li{
+  display: none;
+}
+
+.promo-list li:nth-child(1),
+.promo-list li:nth-child(2),
+.promo-list li:nth-child(3),
+.promo-list li:nth-child(4),
+.promo-list li:nth-child(5),
+.promo-list li:nth-child(6) {
+  display: flex;
+}
+
+
+
+.promo-list,
+.promo-list > li:not(:last-child) { margin-bottom: 30px; }
+
+.promo-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-25);
+  height: 430px;
+}
+
+
+
+.promo-card .card-img { 
+  height: 100%;
+}
+
+
+
+.promo-card .card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.promo-card .card-img:hover img {
+  transform: scale(1.1);
+}
+
+.promo-card .card-content {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: var(--white);
+  border-radius: var(--radius-25);
+  padding: 20px;
+}
+
+
+.promo-card .card-rating {
+  background: var(--bright-navy-blue);
+  color: var(--white);
+  position: absolute;
+  top: 0;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.promo-card .card-subtitle {
+  color: var(--blue-ncs);
+  font-size: var(--fs-6);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.promo-card .card-title { margin-bottom: 5px; }
+
+.promo-card :is(.card-subtitle, .card-title) > a { color: inherit; }
+
+.promo .btn { margin-inline: auto; }
+
+
+/* CSS untuk form */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Jarak dari card promosi */
+}
+
+.typing input[type="text"] {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+  font-size: 16px;
+}
+
+/* CSS untuk tombol */
+button {
+  padding: 10px 20px;
+  background-color: #0056b3; /* Warna latar belakang */
+  color: #fff; /* Warna teks */
+  border: none;
+  border-radius: 30px; /* Bentuk bulat */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3; /* Warna latar belakang saat digulir */
+}

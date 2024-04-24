@@ -65,9 +65,9 @@
 
         <div class="header-btn-group">
 
-          <button class="search-btn" aria-label="Search">
+          <!-- <button class="search-btn" aria-label="Search">
             <ion-icon name="search"></ion-icon>
-          </button>
+          </button> -->
 
           <button class="nav-open-btn" aria-label="Open Menu" data-nav-open-btn>
             <ion-icon name="menu-outline"></ion-icon>
@@ -123,11 +123,7 @@
             </li>
 
             <li>
-              <a href="#promos" class="navbar-link" data-nav-link>promo</a>
-            </li>
-
-            <li>
-              <a href="#rides" class="navbar-link" data-nav-link>rides</a>
+              <a href="#rides" class="navbar-link" data-nav-link>promo</a>
             </li>
 
             <li>
@@ -168,7 +164,7 @@
       <!-- 
         - #HERO
       -->
-      <div class="popup" id="popup">
+      <div class="popup">
         <div class="login-wrapper">
             <span class="icon-close">
                 <ion-icon name="close-outline"></ion-icon>
@@ -258,14 +254,7 @@
         </div>
       </section>
 
-      <!-- 
-        - #Test
-      -->
-      <form action="/index" method="POST">
-        <input type="text" id="title" name="title" placeholder="Title">
-        <input type="text" id="description" name="description" placeholder="Description">
-        <button type="submit">Simpan</button>
-      </form>
+      
       
       
       
@@ -280,63 +269,239 @@
         - #TOUR SEARCH
       -->
 
-      <section class="tour-search">
-        <div class="container">
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tour Search</title>
+        <link rel="stylesheet" href="styles.css">
+      </head>
+      <body>
+        <section class="tour-search">
+          <div class="container">
+            <form action="/inquire-now" class="tour-search-form" method="POST" autocomplete="off">
+            
+              <div class="input-wrapper">
+                <label for="destination" class="input-label">Search Destination*</label>
+                <input type="text" name="destination" id="destination" required placeholder="Enter Destination" class="input-field">
+              </div>
+            
+              <div class="input-wrapper">
+                <label for="people" class="input-label">Pax Number*</label>
+                <input type="number" name="people" id="people" required placeholder="No. of People" class="input-field">
+              </div>
+            
+              <div class="input-wrapper">
+                <label for="checkin" class="input-label">Check-in Date**</label>
+                <input type="date" name="checkin" id="checkin" required class="input-field">
+              </div>
+            
+              <div class="input-wrapper">
+                <label for="checkout" class="input-label">Checkout Date*</label>
+                <input type="date" name="checkout" id="checkout" required class="input-field">
+              </div>
+            
+              <button type="submit" class="btn btn-secondary">Inquire now</button>
+            
+            </form>
+          </div>
+        </section>
+        
+        <script src="scripts.js"></script>
+      </body>
+      </html>
 
-          <form action="" class="tour-search-form">
+      
 
-            <div class="input-wrapper">
-              <label for="destination" class="input-label">Search Destination*</label>
-
-              <input type="text" name="destination" id="destination" required placeholder="Enter Destination"
-                class="input-field">
-            </div>
-
-            <div class="input-wrapper">
-              <label for="people" class="input-label">Pax Number*</label>
-
-              <input type="number" name="people" id="people" required placeholder="No.of People" class="input-field">
-            </div>
-
-            <div class="input-wrapper">
-              <label for="checkin" class="input-label">Checkin Date**</label>
-
-              <input type="date" name="checkin" id="checkin" required class="input-field">
-            </div>
-
-            <div class="input-wrapper">
-              <label for="checkout" class="input-label">Checkout Date*</label>
-
-              <input type="date" name="checkout" id="checkout" required class="input-field">
-            </div>
-
-            <button type="submit" class="btn btn-secondary">Inquire now</button>
-
-          </form>
-
-        </div>
-      </section>
-
+    
       <!-- 
-        - #PROMO
-      -->
-    <section class="sipaling" id="promos">
-      <div ng-app="promoApp" ng-controller="promoCtrl">
-        <div class="promo-banner">
+      - #PROMO
+    -->
+    
+  <section class="promo" id="rides">
+    <div class="container">
+
+      <p class="section-subtitle">Ancol Promotion</p>
+
+      <h2 class="h2 section-title">PROMOTION IN TOWN</h2>
+
+      <p class="section-text">
+        Liburan bersama keluarga menjadi lebih asik dan hemat dengan promosi menarik.
+      </p>
+
+      <ul class="promo-list">
+
+        <li>
+          <div class="promo-card" data-title="Dufan" data-description="Masukan Kode Promo Di Form Bawah!" data-image="./images/PROMOSIATU.png"  data-promo-code="DUFAN25">
+            <figure class="card-img">
+              <img src="./images/PROMOSIATU.png" alt="Dufan" loading="lazy">
+            </figure>
+            <div class="card-content">
+              <p class="card-subtitle">
+                <a href="#">Dufan</a>
+              </p>
+              <p class="card-text">
+                Aktifkan Notifikasi Untuk Kesempatan Klaim Tiket Gratis dan Diskon Tiket
+              </p>
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div class="promo-card" data-title="Dufan" data-description="Masukan Kode Promo Di Form Bawah!" data-image="./images/PROMOSIATU.png"  data-promo-code="DUFAN21">
+
+            <figure class="card-img">
+              <img src="./images/PROMODUA.png" alt="Antasena Tunnel" loading="lazy">
+            </figure>
+
+            <div class="card-content">
+
+              
+
+              <p class="card-subtitle">
+                <a href="#">Samudra Ancol</a>
+              </p>
+
+              
+
+              <p class="card-text">
+                Lebaran di Samudra Ancol dan ada Bonus Menarik!
+              </p>
+
+            </div>
+
+          </div>
+        </li>
+
+        <li>
+          <div class="promo-card" data-title="Dufan" data-description="Masukan Kode Promo Di Form Bawah!" data-image="./images/PROMOSIATU.png"  data-promo-code="DUFAN22">
+
+            <figure class="card-img">
+              <img src="./images/SeaworldAncol.jpg" alt="Antasena Tunnel" loading="lazy">
+            </figure>
+
+            <div class="card-content">
+
           
-          <p class="promo-subtitle">Uncover place</p>
 
-          <h2 class="h2 section-title">Get Yours Promo</h2>
+              <p class="card-subtitle">
+                <a href="#">Seaworld Ancol</a>
+              </p>
 
-          <p class="section-text">
-            Nikmati promo istimewa di Ancol, hadiah harga terbaik untuk pengalaman tak terlupakan! 
-            Dapatkan penawaran eksklusif ini dan raih momen menyenangkan dengan diskon menarik.
-          </p>
-          <img ng-src="{{ promoImage }}" alt="Promo Banner">
-          <a ng-href="{{ promoLink }}" target="_blank">{{ promoButton }}</a>
-        </div>
-      </div>
-    </section>
+              
+
+              <p class="card-text">
+                Annual Pass Sea World Ancol: Bayar Sekali, Rekreasi Setahun Gratis!
+              </p>
+              
+
+            </div>
+
+          </div>
+        </li>
+        <li>
+          <div class="promo-card" data-title="Dufan" data-description="Masukan Kode Promo Di Form Bawah!" data-image="./images/PROMOSIATU.png"  data-promo-code="DUFAN23">
+
+            <figure class="card-img">
+              <img src="./images/AtlantisPancol.jpg" alt="Antasena Tunnel" loading="lazy">
+            </figure>
+
+            <div class="card-content">
+
+          
+
+              <p class="card-subtitle">
+                <a href="#">Atlantis Ancol</a>
+              </p>
+
+              
+
+              <p class="card-text">
+                Annual Pass Atlantis Cuma 165rb! Berenang & Main Sepuasnya!
+              </p>
+
+            </div>
+
+          </div>
+        </li>
+
+        <li>
+          <div class="promo-card" data-title="Dufan" data-description="Masukan Kode Promo Di Form Bawah!" data-image="./images/PROMOSIATU.png"  data-promo-code="DUFAN24">
+
+            <figure class="card-img">
+              <img src="./images/PREWEDANCOL.png" alt="Antasena Tunnel" loading="lazy">
+            </figure>
+
+            <div class="card-content">
+
+          
+
+              <p class="card-subtitle">
+                <a href="#">Ancol</a>
+              </p>
+
+              
+
+              <p class="card-text">
+                Prewedding di Ancol, Abadikan Moment Terbaik Kamu
+              </p>
+
+            </div>
+
+          </div>
+        </li>
+
+        <li>
+          <div class="promo-card" data-title="Dufan" data-description="Masukan Kode Promo Di Form Bawah!" data-image="./images/PROMOSIATU.png"  data-promo-code="DUFAN26">
+
+            <figure class="card-img">
+              <img src="./images/POINANCOL.png" alt="Antasena Tunnel" loading="lazy">
+            </figure>
+
+            <div class="card-content">
+
+          
+
+              <p class="card-subtitle">
+                <a href="#"> Ancol</a>
+              </p>
+
+             
+
+              <p class="card-text">
+                Join Ancol Points dan Dapatkan Keuntungan Eksklusif
+              </p>
+              
+
+            </div>
+
+          </div>
+        </li>
+
+        
+      
+    </div>
+  </section>
+
+  <!-- 
+        - #Test
+      -->
+      <form class="typing" action="/index" method="POST">
+        <input   type="text" id="title" name="title" placeholder="Insert Promo Code">
+        <button type="submit">Redeem</button>
+      </form>
+ 
+   <!-- Pop up -->
+   <div class="popup-overlay" id="popup" style="display: none;">
+    <div class="popup-content">
+        <!-- Konten pop-up -->
+        <p>Successfully redeemed</p>
+        <span class="popup-close" onclick="closePopup()">X</span>
+    </div>
+</div>
+    
+  
 
       <!-- 
         - #POPULAR
@@ -1514,22 +1679,18 @@
 
       <section class="cta" id="contact">
         <div class="container">
-
           <div class="cta-content">
             <p class="section-subtitle">Call To Action</p>
-
             <h2 class="h2 section-title">Ready For Unforgettable Adventure in Our Ancol.</h2>
-
             <p class="section-text">
-              Get ready to embark on an unforgettable adventure at our enchanting Ancol destination, 
+              Get ready to embark on an unforgettable adventure at our enchanting Ancol destination,
               where every moment promises excitement and lasting memories!
             </p>
           </div>
-
-          <button class="btn btn-secondary">Contact Us !</button>
-
+          <a href="https://wa.me/6281237611274" target="_blank" class="btn btn-secondary">Contact Us !</a>
         </div>
       </section>
+      
 
     </article>
   </main>
@@ -1596,13 +1757,14 @@
           <p class="form-text">
             Subscribe our newsletter for more update & news !!
           </p>
-
-          <form action="" class="form-wrapper">
+        
+          <!-- Tambahkan id="subscribe-form" pada elemen form -->
+          <form action="/subscribe" method="POST" class="form-wrapper" id="subscribe-form">
             <input type="email" name="email" class="input-field" placeholder="Enter Your Email" required>
-
+        
             <button type="submit" class="btn btn-secondary">Subscribe</button>
           </form>
-
+        
         </div>
 
       </div>
@@ -1618,15 +1780,15 @@
         <ul class="footer-bottom-list">
 
           <li>
-            <a href="#" class="footer-bottom-link">Privacy Policy</a>
+            <a href="https://youtu.be/dQw4w9WgXcQ?si=SDs__opKeK5kjusb" class="footer-bottom-link">Privacy Policy</a>
           </li>
 
           <li>
-            <a href="#" class="footer-bottom-link">Term & Condition</a>
+            <a href="https://youtu.be/dQw4w9WgXcQ?si=SDs__opKeK5kjusb" class="footer-bottom-link">Term & Condition</a>
           </li>
 
           <li>
-            <a href="#" class="footer-bottom-link">FAQ</a>
+            <a href="https://youtu.be/dQw4w9WgXcQ?si=SDs__opKeK5kjusb" class="footer-bottom-link">FAQ</a>
           </li>
 
         </ul>
