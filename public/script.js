@@ -257,7 +257,11 @@ $(document).ready(function() {
   });
 });
 
-
-
-
+    // Menangkap tombol "Book Now"
+    var bookNowBtn = document.getElementById('bookNowBtn');
+    // Menambahkan event listener untuk menanggapi klik
+    bookNowBtn.addEventListener('click', function() {
+        // Menampilkan alert ketika tombol diklik
+        alert('Success booking!');
+    });
 
