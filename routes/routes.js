@@ -5,6 +5,8 @@ const multer = require('multer');
 const admin = require("../models/admin");
 const fs = require("fs");
 const Ride = require('../models/addRide');
+const Carousel = require('../models/addCarousel');
+
 
 // image upload
 var storage = multer.diskStorage({
@@ -196,6 +198,160 @@ router.get("/", async (req, res) => {
         res.status(500).json({ message: error.message, type: 'danger' });
     }
 });
+
+
+// Edit ride route
+router.get("/edit_ride/:id", async (req, res) => {
+    try {
+        const ride = await Ride.findById(req.params.id);
+        if (!ride) {
+            return res.status(404).json({ message: 'Ride not found', type: 'danger' });
+        }
+        res.render('edit_rides', { title: "Edit Ride", ride: ride });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+
+// Delete ride route
+// Delete ride route
+router.post("/delete_ride/:id", async (req, res) => {
+    try {
+        const ride = await Ride.findById(req.params.id);
+        if (!ride) {
+            return res.status(404).json({ message: 'Ride not found', type: 'danger' });
+        }
+
+        // Hapus foto ride dari sistem file jika ada
+        const filePath = './uploads/' + ride.image;
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        } else {
+            console.error("File not found:", filePath);
+            // Jika file tidak ditemukan, kirim respons 404
+            return res.status(404).json({ message: 'File not found', type: 'danger' });
+        }
+
+        // Hapus ride dari database
+        await Ride.findByIdAndDelete(req.params.id);
+        req.session.message = {
+            type: 'info',
+            message: 'Ride deleted successfully!'
+        };
+        res.redirect("/add_rides");
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+
+
+// Rute untuk memperbarui data ride
+router.post('/update_ride/:id', upload, async (req, res) => {
+    try {
+        // Ambil ID ride dari parameter URL
+        const id = req.params.id;
+
+        // Inisialisasi variabel untuk menyimpan nama file gambar yang baru
+        let newImage = '';
+
+        // Periksa apakah ada file gambar baru diunggah
+        if (req.file) {
+            // Jika ada, simpan nama file gambar yang baru
+            newImage = req.file.filename;
+
+            // Hapus file gambar lama dari sistem file
+            try {
+                fs.unlinkSync('./uploads/' + req.body.old_image);
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            // Jika tidak ada file gambar baru diunggah, gunakan nama file gambar lama
+            newImage = req.body.old_image;
+        }
+
+        // Perbarui data ride di database
+        const updatedRide = await Ride.findByIdAndUpdate(id, {
+            title: req.body.title,
+            description: req.body.description,
+            image: newImage, // Gunakan nama file gambar yang baru
+        });
+
+        // Periksa apakah ride berhasil diperbarui
+        if (!updatedRide) {
+            // Jika tidak, kirim respons bahwa ride tidak ditemukan
+            return res.status(404).json({ message: 'Ride not found', type: 'danger' });
+        }
+
+        // Jika berhasil, siapkan pesan sukses untuk ditampilkan
+        req.session.message = {
+            type: 'success',
+            message: 'Ride updated successfully!',
+        };
+
+        // Redirect pengguna kembali ke halaman add_rides
+        res.redirect("/add_rides");
+    } catch (error) {
+        // Tangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+// Menampilkan halaman tambah carousel
+router.get("/add_carousel", async (req, res) => {
+    try {
+        res.render('add_carousel', { title: "Add Carousel" });
+    } catch (error) {
+        // Tangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+// Menangani penambahan carousel baru ke dalam database
+router.post('/add_carousel', async (req, res) => {
+    try {
+        const carousel = new Carousel({
+            title: req.body.title,
+            description: req.body.description,
+            image: req.file.filename, // Menggunakan req.file untuk mengakses file yang diunggah
+        });
+        
+        // Menyimpan carousel baru ke dalam database
+        await carousel.save();
+
+        // Menyiapkan pesan untuk ditampilkan setelah berhasil menambahkan carousel
+        req.session.message = {
+            type: 'success',
+            message: 'Carousel added successfully!'
+        };
+        
+        // Mengarahkan pengguna kembali ke halaman tambah carousel
+        res.redirect('/add_carousel');
+    } catch (error) {
+        // Menangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+// Menampilkan semua carousel
+router.get("/carousel", async (req, res) => {
+    try {
+        const carousels = await Carousel.find(); // Ambil semua carousel dari database
+        res.render('carousel', { title: "Carousel", carousels: carousels });
+    } catch (error) {
+        // Tangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
 
 
 module.exports = router;

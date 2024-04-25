@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-6 mx-auto mt-4">
+        <div class="col-lg-8 mx-auto mt-4"> <!-- Memperbesar lebar kolom menjadi 8 -->
             <% if (message) { %>
                 <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
                     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -17,15 +17,15 @@
                     <form action="/add_rides" method="post" id="add-ride-form" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="title">Title</label>
-                            <input type="text" name="title" class="form-control form-control-lg" placeholder="Enter title" required />
+                            <input type="text" name="title" class="form-control" placeholder="Enter title" required /> <!-- Menghapus kelas form-control-lg -->
                         </div>
                         <div class="mb-3">
                             <label for="description">Description</label>
-                            <textarea name="description" class="form-control form-control-lg" placeholder="Enter description" required></textarea>
+                            <textarea name="description" class="form-control" placeholder="Enter description" required></textarea> <!-- Menghapus kelas form-control-lg -->
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Select Image</label>
-                            <input class="form-control form-control-lg" type="file" name="image" required />
+                            <input class="form-control" type="file" name="image" required /> <!-- Menghapus kelas form-control-lg -->
                         </div>
                         <div class="mb-3 d-grid">
                             <input type="submit" name="submit" value="Add Ride" class="btn btn-primary btn-lg" />
@@ -34,7 +34,28 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-8 mx-auto mt-4"> <!-- Kolom tambahan untuk menampilkan rides yang sudah ada -->
+            <% rides.forEach(function(ride) { %>
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <img src="<%= ride.image %>" alt="<%= ride.title %>" class="img-fluid" loading="lazy"> <!-- Menambahkan kelas img-fluid untuk memastikan gambar yang ditampilkan responsif -->
+                            </div>
+                            <div class="col-md-8">
+                                <h5 class="card-title"><%= ride.title %></h5>
+                                <p class="card-text"><%= ride.description %></p>
+                                <div class="btn-group">
+                                    <a href="/edit_ride/<%= ride._id %>" class="btn btn-primary">Edit</a>
+                                    <form action="/delete_ride/<%= ride._id %>" method="POST">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
     </div>
 </div>
-
-<%- include('layout/footer') %>
