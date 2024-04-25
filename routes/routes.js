@@ -4,6 +4,8 @@ const Admin = require('../models/admin');
 const multer = require('multer');
 const admin = require("../models/admin");
 const fs = require("fs");
+const Ride = require('../models/addRide');
+
 // image upload
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -51,7 +53,6 @@ router.get("/admin", async (req, res) => {
 router.get("/add", (req, res) => {
     res.render("add_user", { title: "Add Admin" })
 });
-
 
 // Edit an admin route 
 router.get("/edit/:id", async (req, res) => { // Tambahkan async di sini
@@ -111,8 +112,6 @@ router.post('/update/:id', upload, async (req, res) => {
     }
 });
 
-
-
 //Delete user route
 router.get('/delete/:id', async (req, res) => {
     try {
@@ -141,6 +140,60 @@ router.get('/delete/:id', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
+    }
+});
+
+// Menampilkan halaman tambah ride
+router.get("/add_rides", async (req, res) => {
+    try {
+        // Ambil data rides dari database atau dari sumber lainnya
+        const rides = await Ride.find(); // Misalnya menggunakan model Ride dari MongoDB
+
+        // Render halaman add_rides.ejs dengan data rides dan title
+        res.render('add_rides', { title: "Add Rides", rides: rides });
+    } catch (error) {
+        // Tangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+// Menangani penambahan ride baru ke dalam database
+// Kemudian Anda dapat menggunakan model Ride di dalam rute-rute Anda
+router.post('/add_rides', upload, async (req, res) => {
+    try {
+        const ride = new Ride({
+            title: req.body.title,
+            description: req.body.description,
+            image: req.file.filename,
+        });
+        
+        // Menyimpan ride baru ke dalam database
+        await ride.save();
+
+        // Menyiapkan pesan untuk ditampilkan setelah berhasil menambahkan ride
+        req.session.message = {
+            type: 'success',
+            message: 'Ride added successfully!'
+        };
+        
+        // Mengarahkan pengguna kembali ke halaman utama atau halaman yang sesuai
+        res.redirect('/add_rides'); // Sesuaikan dengan rute yang diinginkan
+    } catch (error) {
+        // Menangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+//tambahan untuk ke home
+router.get("/", async (req, res) => {
+    try {
+        const rides = await Ride.find(); // Mendapatkan data rides dari database
+        res.render("index", { title: "Home", rides: rides }); // Mengirim data rides ke dalam template
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
     }
 });
 
