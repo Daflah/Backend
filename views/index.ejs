@@ -164,7 +164,7 @@
       <!-- 
         - #HERO
       -->
-      <div class="popup">
+      <!-- <div class="popup">
         <div class="login-wrapper">
             <span class="icon-close">
                 <ion-icon name="close-outline"></ion-icon>
@@ -172,7 +172,7 @@
     
             <div class="form-box login">
                 <h2>Login</h2>
-                <!-- Formulir login -->
+                
                 <form action="/login" method="POST">
                     <div class="input-box">
                         <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
@@ -193,13 +193,13 @@
                         <p>Belum punya akun bro? <a href="#" class="register-link"> Daftar </a></p>
                     </div>
                 </form>
-                <!-- Tambahkan elemen untuk menampilkan pesan kesalahan -->
+                
                 <% if (typeof errorMessage !== 'undefined') { %>
                     <p class="error-message"><%= errorMessage %></p>
                 <% } %>
             </div>
     
-            <!-- Formulir pendaftaran -->
+            
             <div class="form-box register">
                 <h2>Daftar</h2>
                 <form action="/register" method="POST">
@@ -229,7 +229,7 @@
             </div>
         </div>
     </div>
-    
+     -->
     
 
 
@@ -487,11 +487,12 @@
   <!-- 
         - #Test
       -->
+    <div class="redeem">
       <form class="typing" action="/index" method="POST">
         <input   type="text" id="title" name="title" placeholder="Insert Promo Code">
         <button type="submit">Redeem</button>
       </form>
- 
+    </div>
    <!-- Pop up -->
    <div class="popup-overlay" id="popup" style="display: none;">
     <div class="popup-content">

@@ -1994,7 +1994,7 @@ address {
 
 
 /* CSS untuk form */
-form {
+.redeem form {
   display: flex;
   flex-direction: column;
   align-items: center;
