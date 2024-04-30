@@ -77,28 +77,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // });
 
 
-// Endpoint untuk menyimpan promo diskon yang dipilih oleh pengguna
-app.post("/promo-selection", async (req, res) => {
-  try {
-    const { title, description, image } = req.body;
+// // Endpoint untuk menyimpan promo diskon yang dipilih oleh pengguna
+// app.post("/promo-selection", async (req, res) => {
+//   try {
+//     const { title, description, image } = req.body;
 
-    // Simpan data promosi ke dalam database MongoDB
-    const newPromo = new Promo({
-      title: title,
-      description: description,
-      image: image
-    });
-    const savedPromo = await newPromo.save();
-    console.log('Data promosi berhasil disimpan:', savedPromo);
+//     // Simpan data promosi ke dalam database MongoDB
+//     const newPromo = new Promo({
+//       title: title,
+//       description: description,
+//       image: image
+//     });
+//     const savedPromo = await newPromo.save();
+//     console.log('Data promosi berhasil disimpan:', savedPromo);
 
-    // Kirim respons ke pengguna bahwa data promosi berhasil disimpan
-    res.status(200).json({ message: 'Data promosi berhasil disimpan.' });
-  } catch (error) {
-    // Tangani kesalahan jika gagal menyimpan data promosi
-    console.error('Gagal menyimpan data promosi:', error);
-    res.status(500).json({ message: 'Gagal menyimpan data promosi.' });
-  }
-});
+//     // Kirim respons ke pengguna bahwa data promosi berhasil disimpan
+//     res.status(200).json({ message: 'Data promosi berhasil disimpan.' });
+//   } catch (error) {
+//     // Tangani kesalahan jika gagal menyimpan data promosi
+//     console.error('Gagal menyimpan data promosi:', error);
+//     res.status(500).json({ message: 'Gagal menyimpan data promosi.' });
+//   }
+// });
 // // Endpoint untuk menyimpan data promosi ke MongoDB
 // app.post("/redeem-promo", async (req, res) => {
 //   try {

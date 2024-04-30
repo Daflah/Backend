@@ -11,10 +11,10 @@
             <% } %>
             <div class="card shadow">
                 <div class="card-header bg-primary">
-                    <h3 class="text-light">Add New Ride</h3>
+                    <h3 class="text-light">Add New Carousel</h3>
                 </div>
                 <div class="card-body p-4">
-                    <form action="/add_rides" method="post" id="add-ride-form" enctype="multipart/form-data">
+                    <form action="/add_carousel" method="post" id="add-carousel-form" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="title">Title</label>
                             <input type="text" name="title" class="form-control" placeholder="Enter title" required /> <!-- Menghapus kelas form-control-lg -->
@@ -28,26 +28,27 @@
                             <input class="form-control" type="file" name="image" required /> <!-- Menghapus kelas form-control-lg -->
                         </div>
                         <div class="mb-3 d-grid">
-                            <input type="submit" name="submit" value="Add Ride" class="btn btn-primary btn-lg" />
+                            <input type="submit" name="submit" value="Add Carousel" class="btn btn-primary btn-lg" /> <!-- Mengubah teks tombol -->
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 mx-auto mt-4"> <!-- Kolom tambahan untuk menampilkan rides yang sudah ada -->
-            <% rides.forEach(function(ride) { %>
+        <div class="col-lg-8 mx-auto mt-4"> <!-- Kolom tambahan untuk menampilkan carousel yang sudah ada -->
+            <% carousels.forEach(function(carousel) { %> <!-- Mengubah variabel rides menjadi carousels -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-md-4">
-                                <img src="<%= ride.image %>" alt="<%= ride.title %>" class="img-fluid" loading="lazy"> <!-- Menambahkan kelas img-fluid untuk memastikan gambar yang ditampilkan responsif -->
+                                <img src="<%= carousel.image %>" alt="<%= carousel.title %>" class="img-fluid" loading="lazy"> <!-- Mengganti variabel ride menjadi carousel -->
                             </div>
                             <div class="col-md-8">
-                                <h5 class="card-title"><%= ride.title %></h5>
-                                <p class="card-text"><%= ride.description %></p>
+                                <h5 class="card-title"><%= carousel.title %></h5> <!-- Mengganti variabel ride menjadi carousel -->
+                                <p class="card-text"><%= carousel.description %></p> <!-- Mengganti variabel ride menjadi carousel -->
                                 <div class="btn-group">
-                                    <a href="/edit_ride/<%= ride._id %>" class="btn btn-primary">Edit</a>
-                                    <form action="/delete_ride/<%= ride._id %>" method="POST">
+                                    <a href="/edit_carousel/<%= carousel._id %>" class="btn btn-primary">Edit</a> <!-- Mengganti route dan variabel ride menjadi carousel -->
+                                    <form action="/delete_carousel/<%= carousel._id %>" method="POST"> <!-- Mengganti route dan variabel ride menjadi carousel -->
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                 </div>
@@ -59,3 +60,5 @@
         </div>
     </div>
 </div>
+
+<%- include('layout/footer') %>
