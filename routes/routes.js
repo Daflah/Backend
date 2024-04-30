@@ -307,7 +307,8 @@ router.get("/", async (req, res) => {
     try {
         const rides = await Ride.find(); // Mendapatkan data rides dari database
         const promos = await Promo.find(); // Mendapatkan data promos dari database
-        res.render("index", { title: "Home", rides: rides, promos: promos }); // Mengirim data rides dan promos ke dalam template
+        const carousels = await Carousel.find();
+        res.render("index", { title: "Home", rides: rides, promos: promos, carousels: carousels }); // Mengirim data rides dan promos ke dalam template
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
@@ -318,7 +319,8 @@ router.get("/userdashboard", async (req, res) => {
     try {
         const rides = await Ride.find(); // Mendapatkan data rides dari database
         const promos = await Promo.find(); // Mendapatkan data promos dari database
-        res.render("index", { title: "User Dashboard", rides: rides, promos: promos }); // Mengirim data rides dan promos ke dalam template
+        const carousels = await Carousel.find();
+        res.render("index", { title: "User Dashboard", rides: rides, promos: promos, carousels: carousels }); // Mengirim data rides dan promos ke dalam template
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
