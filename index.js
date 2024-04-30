@@ -7,7 +7,10 @@ const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
 const Data = require('./models/Data'); // Pastikan path-nya sesuai
 const Subscribe = require('./models/subscribe'); // Sesuaikan pathnya jika diperlukan
-const MongoClient = require('mongodb').MongoClient;
+//new
+const session = require('express-session');
+
+
 
 
 // Import model dan fungsi dari file destination.js
@@ -21,8 +24,31 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log(err.message);
 });
 
+//      db.on("error", (error))
+
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: false}))
 app.use(express.json());
+
+app.use(
+  session({
+    secret: "my secret key",
+    saveUninitialized: true,
+    resave: false
+  })
+);
+
+app.use((req,res,next) => {
+  res.locals.message = req.session.message;
+  delete req.session.message;
+  next();
+});
+
+app.use(express.static('uploads'));
+
+//routes prefix
+app.use("", require('./routes/routes'))
+
 
 // Test
 // Skema dan model untuk data yang akan disimpan
@@ -49,6 +75,52 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     res.status(500).send("Terjadi kesalahan saat menyimpan email")
 //   }
 // });
+
+
+// Endpoint untuk menyimpan promo diskon yang dipilih oleh pengguna
+app.post("/promo-selection", async (req, res) => {
+  try {
+    const { title, description, image } = req.body;
+
+    // Simpan data promosi ke dalam database MongoDB
+    const newPromo = new Promo({
+      title: title,
+      description: description,
+      image: image
+    });
+    const savedPromo = await newPromo.save();
+    console.log('Data promosi berhasil disimpan:', savedPromo);
+
+    // Kirim respons ke pengguna bahwa data promosi berhasil disimpan
+    res.status(200).json({ message: 'Data promosi berhasil disimpan.' });
+  } catch (error) {
+    // Tangani kesalahan jika gagal menyimpan data promosi
+    console.error('Gagal menyimpan data promosi:', error);
+    res.status(500).json({ message: 'Gagal menyimpan data promosi.' });
+  }
+});
+// // Endpoint untuk menyimpan data promosi ke MongoDB
+// app.post("/redeem-promo", async (req, res) => {
+//   try {
+//     const { title, description, image } = req.body;
+    
+//     // Simpan data promosi ke MongoDB
+//     const newPromo = new Promo({
+//       title: title,
+//       description: description,
+//       image: image
+//     });
+//     const savedPromo = await newPromo.save();
+//     console.log('Data promosi berhasil disimpan:', savedPromo);
+
+//     // Berikan respons bahwa data berhasil disimpan
+//     res.status(200).json({ message: 'Data promosi berhasil disimpan ke MongoDB.' });
+//   } catch (error) {
+//     console.error('Gagal menyimpan data promosi:', error);
+//     res.status(500).json({ message: 'Gagal menyimpan data promosi.' });
+//   }
+// });
+
 
 // Endpoint untuk pendaftaran pengguna
 app.post("/register", async (req, res) => {
@@ -152,6 +224,12 @@ app.post("/login", async (req, res) => {
 //   }
 // });
 
+
+
+
+
+
+
 app.post('/', async (req, res) => {
   try {
     const newTodoListItem = new TodoListItem({
@@ -244,7 +322,7 @@ app.use(express.json());
 app.use("/api/todolistitems", require("./routes/api/todolistitems"));
 
 app.set("view engine", "ejs");
-// app.set("views", path.join(_dirname, "views"));
+app.set('views', path.join(__dirname, 'views'));
 
 app.post('/subscribe', async (req, res) => {
   try {
@@ -290,7 +368,7 @@ app.get("/userdashboard", (req,res) =>{
   res.render("index.ejs");
 });
 
-app.get("/admin", (req,res) =>{
+app.get("/", (req,res) =>{
   res.render("index1.ejs");
 });
 
