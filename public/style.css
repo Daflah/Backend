@@ -1991,3 +1991,4 @@ address {
 .promo-card :is(.card-subtitle, .card-title) > a { color: inherit; }
 
 .promo .btn { margin-inline: auto; }
+
