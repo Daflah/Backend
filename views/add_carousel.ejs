@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-6 mx-auto mt-4">
+        <div class="col-lg-8 mx-auto mt-4"> <!-- Memperbesar lebar kolom menjadi 8 -->
             <% if (message) { %>
                 <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
                     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -17,22 +17,46 @@
                     <form action="/add_carousel" method="post" id="add-carousel-form" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="title">Title</label>
-                            <input type="text" name="title" class="form-control form-control-lg" placeholder="Enter title" required />
+                            <input type="text" name="title" class="form-control" placeholder="Enter title" required /> <!-- Menghapus kelas form-control-lg -->
                         </div>
                         <div class="mb-3">
                             <label for="description">Description</label>
-                            <textarea name="description" class="form-control form-control-lg" placeholder="Enter description" required></textarea>
+                            <textarea name="description" class="form-control" placeholder="Enter description" required></textarea> <!-- Menghapus kelas form-control-lg -->
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Select Image</label>
-                            <input class="form-control form-control-lg" type="file" name="image" required />
+                            <input class="form-control" type="file" name="image" required /> <!-- Menghapus kelas form-control-lg -->
                         </div>
                         <div class="mb-3 d-grid">
-                            <input type="submit" name="submit" value="Add Carousel" class="btn btn-primary btn-lg" />
+                            <input type="submit" name="submit" value="Add Carousel" class="btn btn-primary btn-lg" /> <!-- Mengubah teks tombol -->
                         </div>
                     </form>
+                    
                 </div>
             </div>
+        </div>
+        <div class="col-lg-8 mx-auto mt-4"> <!-- Kolom tambahan untuk menampilkan carousel yang sudah ada -->
+            <% carousels.forEach(function(carousel) { %> <!-- Mengubah variabel rides menjadi carousels -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <img src="<%= carousel.image %>" alt="<%= carousel.title %>" class="img-fluid" loading="lazy"> <!-- Mengganti variabel ride menjadi carousel -->
+                            </div>
+                            <div class="col-md-8">
+                                <h5 class="card-title"><%= carousel.title %></h5> <!-- Mengganti variabel ride menjadi carousel -->
+                                <p class="card-text"><%= carousel.description %></p> <!-- Mengganti variabel ride menjadi carousel -->
+                                <div class="btn-group">
+                                    <a href="/edit_carousel/<%= carousel._id %>" class="btn btn-primary">Edit</a> <!-- Mengganti route dan variabel ride menjadi carousel -->
+                                    <form action="/delete_carousel/<%= carousel._id %>" method="POST"> <!-- Mengganti route dan variabel ride menjadi carousel -->
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
         </div>
     </div>
 </div>

@@ -319,7 +319,35 @@
       - #PROMO
     -->
     
-  <section class="promo" id="rides">
+    <section class="promo" id="rides">
+      <div class="container">
+          <p class="section-subtitle">Ancol Promotion</p>
+          <h2 class="h2 section-title">PROMOTION IN TOWN</h2>
+          <p class="section-text">
+              Liburan bersama keluarga menjadi lebih asik dan hemat dengan promosi menarik.
+          </p>
+          <ul class="promo-list">
+              <% promos.forEach(function(promo) { %>
+                  <li>
+                      <div class="promo-card" data-title="<%= promo.title %>" data-description="<%= promo.description %>" data-image="/uploads/<%= promo.image %>">
+                          <figure class="card-img">
+                              <img src="/uploads/<%= promo.image %>" alt="<%= promo.title %>" loading="lazy">
+                          </figure>
+                          <div class="card-content">
+                              <p class="card-subtitle">
+                                  <a href="#"><%= promo.title %></a>
+                              </p>
+                              <p class="card-text">
+                                  <%= promo.description %>
+                              </p>
+                          </div>
+                      </div>
+                  </li>
+              <% }); %>
+          </ul>
+      </div>
+  </section>
+  <!-- <section class="promo" id="rides">
     <div class="container">
 
       <p class="section-subtitle">Ancol Promotion</p>
@@ -482,7 +510,7 @@
         
       
     </div>
-  </section>
+  </section> -->
 
   <!-- 
         - #Test
@@ -506,6 +534,8 @@
       <!-- 
         - #POPULAR
       -->
+
+      
 
             <section class="popular" id="rides">
           <div class="container">
@@ -1595,7 +1625,6 @@
       <!-- 
         - #GALLERY
       -->
-
       <section class="gallery" id="gallery">
         <div class="container">
 
@@ -1676,11 +1705,18 @@
                 <span class="dot" onclick="dotSlide(5)"></span>
                 <span class="dot" onclick="dotSlide(6)"></span>
                 <span class="dot" onclick="dotSlide(7)"></span>
+                
             </div>
         </div>
 
         </div>
-      </section>
+      </section> 
+
+    
+      
+
+
+
 
 
       <section id="our-team">
