@@ -5,13 +5,12 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
-const Data = require('./models/Data'); // Pastikan path-nya sesuai
-const Subscribe = require('./models/subscribe'); // Sesuaikan pathnya jika diperlukan
-//new
+const Data = require('./models/Data');
+const Subscribe = require('./models/subscribe');
+
+// New
 const session = require('express-session');
-
-
-
+// const btnPopup = document.querySelector('.btnlogin-popup');
 
 // Import model dan fungsi dari file destination.js
 const { createDestinationModel, saveDestination } = require('./models/DestinationModel');
@@ -23,8 +22,6 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 }).catch((err) => {
   console.log(err.message);
 });
-
-//      db.on("error", (error))
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({extended: false}))
@@ -60,21 +57,6 @@ const dataSchema = new mongoose.Schema({
 
 // Middleware untuk parsing body dari permintaan POST
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// app.post("/index", async (req, res) => {
-//     try{
-//       const {title, description} = req.body;
-//       const newIndex = new TodoListitems({
-//         title,
-//         description
-//       });
-//       await newIndex.save();
-//       res.redirect("/index");
-//   } catch(error){
-//     console.error(error);
-//     res.status(500).send("Terjadi kesalahan saat menyimpan email")
-//   }
-// });
 
 
 // // Endpoint untuk menyimpan promo diskon yang dipilih oleh pengguna
@@ -150,7 +132,8 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Endpoint untuk login
+
+
 // Endpoint untuk login
 app.post("/login", async (req, res) => {
   try {
@@ -282,6 +265,7 @@ module.exports = {
 // Di sini Anda tidak perlu mengubah kode di destination.js
 
 // Di dalam penanganan permintaan POST untuk rute "/inquire-now"
+// Di dalam penanganan permintaan POST untuk rute "/inquire-now"
 app.post("/inquire-now", async (req, res) => {
   try {
     const { destination, people, checkin, checkout } = req.body;
@@ -292,11 +276,14 @@ app.post("/inquire-now", async (req, res) => {
     // Simpan data tujuan menggunakan fungsi saveDestination
     await saveDestination(destinationModel);
 
-    // Berikan respons ke pengguna bahwa data telah disimpan
-    
+    // Set pesan yang akan ditampilkan kepada pengguna
+    req.session.message = {
+      type: 'success',
+      message: 'Data tersimpan.'
+    };
 
-    // Redirect ke halaman user dashboard
-    res.redirect('/userdashboard');
+    // Redirect ke halaman yang sama (localhost:3000)
+    res.redirect('/');
 
   } catch (error) {
     // Tangani kesalahan jika penyimpanan data gagal
@@ -304,6 +291,8 @@ app.post("/inquire-now", async (req, res) => {
     res.status(500).send('Gagal menyimpan data tujuan.');
   }
 });
+
+
 
 // Endpoint untuk mendapatkan daftar item dalam to-do list
 app.get('/index', async (req, res) => {
@@ -368,49 +357,10 @@ app.get("/userdashboard", (req,res) =>{
   res.render("index.ejs");
 });
 
-app.get("/", (req,res) =>{
-  res.render("index1.ejs");
-});
-
-// ini nambah
-// Endpoint untuk menyimpan promo diskon yang dipilih oleh pengguna
-
-
-
 // Test
-app.get("/admin/charts", (req,res) =>{
-  res.render("charts.ejs");
-});
-
-app.get("/tables", (req,res) =>{
-  res.render("tables.ejs");
-});
-
-app.get("/admin/registermin", (req,res) =>{
-  res.render("register.ejs");
-});
-
-app.get(" /layo", (req,res) =>{
-  res.render("layout-static.ejs");
-});
-
 app.get("/login", (req,res) =>{
   res.render("login.ejs");
 });
-
-app.get("/admin1", (req,res) =>{
-  res.render("401.ejs");
-});
-
-app.get("/admin2", (req,res) =>{
-  res.render("404.ejs");
-});
-
-app.get("/admin3", (req,res) =>{
-  res.render("500.ejs");
-});
-
-
 
 app.listen(port, () => {
   console.log(`Webserver app listening port ${port}`);
