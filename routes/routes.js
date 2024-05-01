@@ -307,7 +307,8 @@ router.get("/", async (req, res) => {
     try {
         const rides = await Ride.find(); // Mendapatkan data rides dari database
         const promos = await Promo.find(); // Mendapatkan data promos dari database
-        res.render("index", { title: "Home", rides: rides, promos: promos }); // Mengirim data rides dan promos ke dalam template
+        const carousels = await Carousel.find();
+        res.render("index", { title: "Home", rides: rides, promos: promos, carousels: carousels }); // Mengirim data rides dan promos ke dalam template
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
@@ -318,7 +319,8 @@ router.get("/userdashboard", async (req, res) => {
     try {
         const rides = await Ride.find(); // Mendapatkan data rides dari database
         const promos = await Promo.find(); // Mendapatkan data promos dari database
-        res.render("index", { title: "User Dashboard", rides: rides, promos: promos }); // Mengirim data rides dan promos ke dalam template
+        const carousels = await Carousel.find();
+        res.render("index", { title: "User Dashboard", rides: rides, promos: promos, carousels: carousels }); // Mengirim data rides dan promos ke dalam template
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
@@ -398,6 +400,25 @@ router.get("/edit_carousel/:id", async (req, res) => {
         
         // Render halaman edit_carousel.ejs dengan data carousel dan title
         res.render('edit_carousel', { title: "Edit Carousel", carousel: carousel });
+    } catch (error) {
+        // Tangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+router.get("/edit_promo/:id", async (req, res) => {
+    try {
+        // Cari promo berdasarkan ID yang diberikan
+        const promo = await Promo.findById(req.params.id);
+        
+        // Periksa apakah promo ditemukan
+        if (!promo) {
+            return res.status(404).json({ message: 'Promo not found', type: 'danger' });
+        }
+        
+        // Render halaman edit_promo.ejs dengan data promo dan title
+        res.render('edit_promo', { title: "Edit Promo", promo: promo });
     } catch (error) {
         // Tangani kesalahan jika terjadi
         console.error(error);
@@ -488,6 +509,60 @@ router.post('/update_carousel/:id', upload, async (req, res) => {
         res.redirect("/add_carousel");
     } catch (error) {
         // Handle errors if any
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+
+// Route to update promo data
+router.post('/update_promo/:id', upload, async (req, res) => {
+    try {
+        // Dapatkan ID promo dari parameter URL
+        const id = req.params.id;
+
+        // Inisialisasi variabel untuk menyimpan nama file gambar baru
+        let newImage = '';
+
+        // Periksa apakah ada file gambar baru yang diunggah
+        if (req.file) {
+            // Jika ada, simpan nama file gambar baru
+            newImage = req.file.filename;
+
+            // Hapus file gambar lama dari sistem file
+            try {
+                fs.unlinkSync('./uploads/' + req.body.old_image);
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            // Jika tidak ada file gambar baru yang diunggah, gunakan nama file gambar lama
+            newImage = req.body.old_image;
+        }
+
+        // Perbarui data promo dalam database
+        const updatedPromo = await Promo.findByIdAndUpdate(id, {
+            title: req.body.title,
+            description: req.body.description,
+            image: newImage, // Gunakan nama file gambar baru
+        });
+
+        // Periksa apakah promo berhasil diperbarui
+        if (!updatedPromo) {
+            // Jika tidak, kirim respons bahwa promo tidak ditemukan
+            return res.status(404).json({ message: 'Promo not found', type: 'danger' });
+        }
+
+        // Jika berhasil, siapkan pesan sukses untuk ditampilkan
+        req.session.message = {
+            type: 'success',
+            message: 'Promo updated successfully!',
+        };
+
+        // Redirect pengguna kembali ke halaman add_promo
+        res.redirect("/add_promo");
+    } catch (error) {
+        // Tangani kesalahan jika ada
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
     }

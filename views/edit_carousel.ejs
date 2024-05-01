@@ -5,26 +5,26 @@
         <div class="col-lg-6 mx-auto mt-4">
             <div class="card shadow">
                 <div class="card-header bg-success">
-                    <h3 class="text-light">Edit Ride (<%= ride.title  %>)</h3>
+                    <h3 class="text-light">Edit Carousel (<%= carousel.title  %>)</h3> <!-- Mengubah judul menjadi "Edit Carousel" -->
                 </div>
                 <div class="card-body p-4">
-                    <form action="/update_ride/<%= ride._id %>" method="post" id="edit-ride-form" enctype="multipart/form-data">
+                    <form action="/update_carousel/<%= carousel._id %>" method="post" id="edit-carousel-form" enctype="multipart/form-data"> <!-- Mengubah aksi form menjadi "/update_carousel" -->
                         <div class="mb-3">
                             <label for="title">Title</label>
-                            <input type="text" name="title" class="form-control" placeholder="Enter title" value="<%= ride.title %>" required />
+                            <input type="text" name="title" class="form-control" placeholder="Enter title" value="<%= carousel.title %>" required />
                         </div>
                         <div class="mb-3">
                             <label for="description">Description</label>
-                            <textarea name="description" class="form-control" placeholder="Enter description" required><%= ride.description %></textarea>
+                            <textarea name="description" class="form-control" placeholder="Enter description" required><%= carousel.description %></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Select New Image</label>
                             <input class="form-control" type="file" name="image" />
-                            <img src="<%= ride.image %>" width="100" class="img-thumbnail mt-1"> <!-- Menampilkan gambar yang sudah ada -->
+                            <img src="<%= carousel.image %>" width="100" class="img-thumbnail mt-1"> <!-- Menampilkan gambar yang sudah ada -->
                         </div>
-                        <input type="hidden" name="old_image" value="<%= ride.image %>" />
+                        <input type="hidden" name="old_image" value="<%= carousel.image %>" />
                         <div class="mb-3 d-grid">
-                            <input type="submit" name="submit" value="Update Ride" class="btn btn-success btn-lg" />
+                            <input type="submit" name="submit" value="Update Carousel" class="btn btn-success btn-lg" /> <!-- Mengubah nilai tombol menjadi "Update Carousel" -->
                         </div>
                     </form>
                 </div>

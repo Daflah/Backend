@@ -337,7 +337,7 @@
                   <li>
                       <div class="promo-card" data-title="<%= promo.title %>" data-description="<%= promo.description %>" data-image="/uploads/<%= promo.image %>">
                           <figure class="card-img">
-                              <img src="/uploads/<%= promo.image %>" alt="<%= promo.title %>" loading="lazy">
+                              <img src="<%= promo.image %>" alt="<%= promo.title %>" loading="lazy">
                           </figure>
                           <div class="card-content">
                               <p class="card-subtitle">
@@ -540,8 +540,6 @@
       <!-- 
         - #POPULAR
       -->
-
-      
 
             <section class="popular" id="rides">
           <div class="container">
@@ -1631,94 +1629,41 @@
       <!-- 
         - #GALLERY
       -->
-      <section class="gallery" id="gallery">
-        <div class="container">
+      
 
-          <p class="section-subtitle">Photo Gallery</p>
-
-          <h2 class="h2 section-title">Photo's From Travellers</h2>
-
-          <p class="section-text">
+<section class="gallery" id="gallery">
+    <div class="container">
+        <p class="section-subtitle">Photo Gallery</p>
+        <h2 class="h2 section-title">Photo's From Travellers</h2>
+        <p class="section-text">
             Lihatlah gambar yang menarik ini, menampilkan momen berharga bersama keluarga dari para pengunjung yang sangat kita 
             hargai di Wisata Ancol kami.
-          </p>
+        </p>
 
-          <div class="gallery-img">
+        <div class="gallery-img">
             <div class="content-slide">
-              <div class="imgslide fade">
-                  <div class="numberslide">1/7</div>
-                  <img src="images/MomentTruePict/ancolMoment.jpg" alt="">
-                  <div class="text-slide">Firework New Year</div>
-                  <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
-                  <a class="next" onclick="nextSlide(1)">&#10095;</a>
-              </div>
-  
-              <div class="imgslide fade">
-                  <div class="numberslide">2/7</div>
-                  <img src="images/MomentTruePict/ancolMoment1.jpg" alt="">
-                  <div class="text-slide">Make Sand Castles With Family</div>
-                  <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
-                  <a class="next" onclick="nextSlide(1)">&#10095;</a>
-              </div>
-  
-              <div class="imgslide fade">
-                  <div class="numberslide">3/7</div>
-                  <img src="images/MomentTruePict/ancolMoment2.jpg" alt="">
-                  <div class="text-slide">Walk on The Bridge</div>
-                  <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
-                  <a class="next" onclick="nextSlide(1)">&#10095;</a>
-              </div>
-  
-              <div class="imgslide fade">
-                  <div class="numberslide">4/7</div>
-                  <img src="images/MomentTruePict/ancolMoment3.jpg" alt="">
-                  <div class="text-slide">Mermaid Pool</div>
-                  <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
-                  <a class="next" onclick="nextSlide(1)">&#10095;</a>
-              </div>
-  
-              <div class="imgslide fade">
-                  <div class="numberslide">5/7</div>
-                  <img src="images/MomentTruePict/ancolMoment4.jpg" alt="">
-                  <div class="text-slide">With Family on The Atlantis Ride</div>
-                  <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
-                  <a class="next" onclick="nextSlide(1)">&#10095;</a>
-              </div>
-
-              <div class="imgslide fade">
-                  <div class="numberslide">6/7</div>
-                  <img src="images/MomentTruePict/ancolMoment6.jpg" alt="">
-                  <div class="text-slide">Walking in The Ancol Park With Family</div>
-                  <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
-                  <a class="next" onclick="nextSlide(1)">&#10095;</a>
-              </div>
-  
-              <div class="imgslide fade">
-                  <div class="numberslide">7/7</div>
-                  <img src="images/MomentTruePict/ancolMoment7.jpg" alt="">
-                  <div class="text-slide">With My Wife Enjoying the Ocean View</div>
-                  <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
-                  <a class="next" onclick="nextSlide(1)">&#10095;</a>
-              </div>
-    
+                <% carousels.forEach(function(carousel, index) { %>
+                    <div class="imgslide fade">
+                        <div class="numberslide"><%= index + 1 %>/<%= carousels.length %></div>
+                        <img src="<%= carousel.image %>" alt="<%= carousel.title %>">
+                        <div class="text-slide"><%= carousel.title %></div>
+                        <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
+                        <a class="next" onclick="nextSlide(1)">&#10095;</a>
+                    </div>
+                <% }); %>
             </div>
-    
+
             <div class="page">
-                <span class="dot" onclick="dotSlide(1)"></span>
-                <span class="dot" onclick="dotSlide(2)"></span>
-                <span class="dot" onclick="dotSlide(3)"></span>
-                <span class="dot" onclick="dotSlide(4)"></span>
-                <span class="dot" onclick="dotSlide(5)"></span>
-                <span class="dot" onclick="dotSlide(6)"></span>
-                <span class="dot" onclick="dotSlide(7)"></span>
-                
+                <% for (var i = 1; i <= carousels.length; i++) { %>
+                    <span class="dot" onclick="dotSlide(<%= i %>)"></span>
+                <% } %>
             </div>
         </div>
+    </div>
+</section>
 
-        </div>
-      </section> 
 
-    
+
       
 
 
