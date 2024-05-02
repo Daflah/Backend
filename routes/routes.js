@@ -305,15 +305,34 @@ router.post('/update_ride/:id', upload, async (req, res) => {
 
 router.get("/", async (req, res) => {
     try {
-        const rides = await Ride.find(); // Mendapatkan data rides dari database
-        const promos = await Promo.find(); // Mendapatkan data promos dari database
-        const carousels = await Carousel.find();
-        res.render("index", { title: "Home", rides: rides, promos: promos, carousels: carousels }); // Mengirim data rides dan promos ke dalam template
+      // Mendapatkan data rides dari database
+      const rides = await Ride.find();
+      // Mendapatkan data promos dari database
+      const promos = await Promo.find();
+      // Mendapatkan data carousel dari database
+      const carousels = await Carousel.find();
+  
+      // Ambil pesan dari session jika ada
+      let inquireMessage = req.session.inquireMessage;
+      const subscribeMessage = req.session.subscribeMessage;
+  
+      // Set inquireMessage ke null jika ada
+      if (inquireMessage) {
+        req.session.inquireMessage = null;
+      } else {
+        inquireMessage = null; // Set inquireMessage ke null jika tidak ada
+      }
+  
+      // Render halaman dengan objek pesan yang didefinisikan di locals
+      res.render("index", { title: "Home", rides, promos, carousels, inquireMessage, subscribeMessage });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message, type: 'danger' });
+      console.error('Gagal merender halaman utama:', error);
+      const inquireMessage = null; // Atur ke null jika terjadi kesalahan
+      const subscribeMessage = req.session.subscribeMessage;
+      res.status(500).send('Gagal merender halaman utama.');
     }
-});
+  });
+  
 
 router.get("/userdashboard", async (req, res) => {
     try {
@@ -321,6 +340,17 @@ router.get("/userdashboard", async (req, res) => {
         const promos = await Promo.find(); // Mendapatkan data promos dari database
         const carousels = await Carousel.find();
         res.render("index", { title: "User Dashboard", rides: rides, promos: promos, carousels: carousels }); // Mengirim data rides dan promos ke dalam template
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+router.get("/login", async (req, res) => {
+    try {
+        const rides = await Ride.find(); // Mendapatkan data rides dari database
+        const promos = await Promo.find(); // Mendapatkan data promos dari database
+        res.render("index", { title: "User Dashboard", rides: rides, promos: promos }); // Mengirim data rides dan promos ke dalam template
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
