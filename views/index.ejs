@@ -193,9 +193,13 @@
                         <p>Belum punya akun bro? <a href="#" class="register-link"> Daftar </a></p>
                     </div>
                 </form>
-                <!-- Tambahkan elemen untuk menampilkan pesan kesalahan -->
+                <!-- Tampilkan pesan kesalahan jika ada -->
                 <% if (typeof errorMessage !== 'undefined') { %>
                     <p class="error-message"><%= errorMessage %></p>
+                <% } %>
+                <!-- Tampilkan pesan sukses jika ada -->
+                <% if (typeof successMessage !== 'undefined') { %>
+                    <p class="success-message"><%= successMessage %></p>
                 <% } %>
             </div>
     
@@ -228,7 +232,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div>    
     
     
 
@@ -285,37 +289,34 @@
                 <label for="destination" class="input-label">Search Destination*</label>
                 <input type="text" name="destination" id="destination" required placeholder="Enter Destination" class="input-field">
               </div>
-      
               <div class="input-wrapper">
                 <label for="people" class="input-label">Pax Number*</label>
                 <input type="number" name="people" id="people" required placeholder="No. of People" class="input-field">
               </div>
-      
               <div class="input-wrapper">
                 <label for="checkin" class="input-label">Check-in Date**</label>
                 <input type="date" name="checkin" id="checkin" required class="input-field">
               </div>
-      
               <div class="input-wrapper">
                 <label for="checkout" class="input-label">Checkout Date*</label>
                 <input type="date" name="checkout" id="checkout" required class="input-field">
               </div>
-      
               <button type="submit" class="btn btn-secondary">Inquire now</button>
             </form>
-      
             <!-- Menampilkan pesan -->
-            <% if (message) { %>
+            <% if (inquireMessage && inquireMessage.message) { %>
               <div id="alertMessage" class="alert alert-primary">
-                <strong><%= message.message %></strong>
+                <strong><%= inquireMessage.message %></strong>
                 <button class="btn-close" onclick="closeAlert()" aria-label="Close">×</button>
               </div>
-            <% } %>
+            <% } %>            
+                       
             <!-- Akhir bagian pesan -->
           </div>
         </section>
       </body>
       </html>
+
 
 
       
@@ -1742,99 +1743,74 @@
   -->
 
   <footer class="footer">
-
     <div class="footer-top">
       <div class="container">
-
         <div class="footer-brand">
-
           <a href="#" class="logo-team">
             <img src="images/logo-team.png" alt="Ng-eden Logo">
           </a>
-
           <p class="footer-text">
             We are the ng-eden group from class D, representing the Information Engineering Department at Tarumanagara University.
           </p>
-
         </div>
-
         <div class="footer-contact">
-
           <h4 class="contact-title">Contact Us</h4>
-
-          <p class="contact-text">
-            Feel free to contact and reach us !!
-          </p>
-
+          <p class="contact-text">Feel free to contact and reach us !!</p>
           <ul>
-
             <li class="contact-item">
               <ion-icon name="call-outline"></ion-icon>
-
-              <a href="tel:+01123456790" class="contact-link">+ 021 -29 222 222</a>
+              <a href="tel:+01123456790" class="contact-link">+021-29 222 222</a>
             </li>
-
             <li class="contact-item">
               <ion-icon name="mail-outline"></ion-icon>
-
-              <a href="mailto:info.ng-eden.com" class="contact-link">info.ng-eden.com</a>
+              <a href="mailto:info@ng-eden.com" class="contact-link">info@ng-eden.com</a>
             </li>
-
             <li class="contact-item">
               <ion-icon name="location-outline"></ion-icon>
-
               <address>Untarz, Jakarta</address>
             </li>
-
           </ul>
-
         </div>
-
         <div class="footer-form">
-
-          <p class="form-text">
-            Subscribe our newsletter for more update & news !!
-          </p>
-        
+          <p class="form-text">Subscribe to our newsletter for more updates & news !!</p>
           <!-- Tambahkan id="subscribe-form" pada elemen form -->
           <form action="/subscribe" method="POST" class="form-wrapper" id="subscribe-form">
             <input type="email" name="email" class="input-field" placeholder="Enter Your Email" required>
-        
             <button type="submit" class="btn btn-secondary">Subscribe</button>
           </form>
-        
+          <!-- Menampilkan pesan -->
+          <% if (subscribeMessage) { %>
+            <div id="alertMessage" class="alert alert-primary">
+              <strong><%= subscribeMessage.message %></strong>
+              <button class="btn-close" onclick="closeAlert()" aria-label="Close">×</button>
+            </div>
+          <% } %>
+          <!-- Akhir bagian pesan -->
         </div>
-
       </div>
     </div>
-
     <div class="footer-bottom">
       <div class="container">
-
         <p class="copyright">
           &copy; 2023 <a href="">Created by NG-eden</a>. All rights reserved
         </p>
-
         <ul class="footer-bottom-list">
-
           <li>
             <a href="https://youtu.be/dQw4w9WgXcQ?si=SDs__opKeK5kjusb" class="footer-bottom-link">Privacy Policy</a>
           </li>
-
           <li>
-            <a href="https://youtu.be/dQw4w9WgXcQ?si=SDs__opKeK5kjusb" class="footer-bottom-link">Term & Condition</a>
+            <a href="https://youtu.be/dQw4w9WgXcQ?si=SDs__opKeK5kjusb" class="footer-bottom-link">Terms & Conditions</a>
           </li>
-
           <li>
             <a href="https://youtu.be/dQw4w9WgXcQ?si=SDs__opKeK5kjusb" class="footer-bottom-link">FAQ</a>
           </li>
-
         </ul>
-
       </div>
     </div>
-
   </footer>
+  
+  
+  
 
 
 
