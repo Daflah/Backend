@@ -8,8 +8,28 @@ const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnlogin-popup');
 const iconClose = document.querySelector('.icon-close');
 const btnBOOK = document.querySelector('.btnBOOKCB');
+const btnBOOK1 = document.querySelector('.btnBOOKCB1');
+const btnBOOK2 = document.querySelector('.btnBOOKCB2');
+const btnBOOK3 = document.querySelector('.btnBOOKCB3');
+const btnBOOK4 = document.querySelector('.btnBOOKCB4');
 
 btnBOOK.addEventListener('click', () => {
+  alert('Successfully booked!');
+});
+
+btnBOOK1.addEventListener('click', () => {
+  alert('Successfully booked!');
+});
+
+btnBOOK2.addEventListener('click', () => {
+  alert('Successfully booked!');
+});
+
+btnBOOK3.addEventListener('click', () => {
+  alert('Successfully booked!');
+});
+
+btnBOOK4.addEventListener('click', () => {
   alert('Successfully booked!');
 });
 

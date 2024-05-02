@@ -10,8 +10,7 @@ const Subscribe = require('./models/subscribe'); // Sesuaikan pathnya jika diper
 //new
 const session = require('express-session');
 
-
-
+const ticketbook = require('./models/ticketbook');
 
 // Import model dan fungsi dari file destination.js
 const { createDestinationModel, saveDestination } = require('./models/DestinationModel');
@@ -272,7 +271,7 @@ app.post('/index', async (req, res) => {
     console.error('Gagal menyimpan data:', error);
     res.status(500).send('Gagal menyimpan data.');
   }
-});
+});''
 
 module.exports = {
   createDestinationModel,
