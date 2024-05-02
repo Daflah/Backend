@@ -214,6 +214,45 @@ router.get("/edit_ride/:id", async (req, res) => {
     }
 });
 
+router.post("/delete_promo/:id", async (req, res) => {
+    try {
+        // Cari promo berdasarkan ID yang diberikan
+        const promo = await Promo.findById(req.params.id);
+
+        // Periksa apakah promo ditemukan
+        if (!promo) {
+            // Jika tidak, kirim respons 404
+            return res.status(404).json({ message: 'Promo not found', type: 'danger' });
+        }
+
+        // Hapus foto promo dari sistem file jika ada
+        const filePath = './uploads/' + promo.image;
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        } else {
+            console.error("File not found:", filePath);
+            // Jika file tidak ditemukan, kirim respons 404
+            return res.status(404).json({ message: 'File not found', type: 'danger' });
+        }
+
+        // Hapus promo dari database
+        await Promo.findByIdAndDelete(req.params.id);
+        
+        // Set pesan bahwa promo berhasil dihapus
+        req.session.message = {
+            type: 'info',
+            message: 'Promo deleted successfully!'
+        };
+
+        // Redirect ke halaman add_promo
+        res.redirect("/add_promo");
+    } catch (error) {
+        // Tangani kesalahan jika ada
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
 
 // Delete ride route
 // Delete ride route
