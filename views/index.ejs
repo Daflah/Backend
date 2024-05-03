@@ -537,18 +537,14 @@
         - #POPULAR
       -->
 
-            <section class="popular" id="rides">
-          <div class="container">
-
-              <p class="section-subtitle">Ancol Adventure</p>
-
-              <h2 class="h2 section-title">Tours and Rides in Ancol</h2>
-
-              <p class="section-text">
-                  SeaWorld, Atlantis, Samudra, Pantai, dan Eco Park di Ancol menawarkan pengalaman yang seru dan tak terlupakan.
-              </p>
-
-              <ul class="popular-list">
+      <section class="popular" id="rides">
+        <div class="container">
+            <p class="section-subtitle">Ancol Adventure</p>
+            <h2 class="h2 section-title">Tours and Rides in Ancol</h2>
+            <p class="section-text">
+                SeaWorld, Atlantis, Samudra, Pantai, dan Eco Park di Ancol menawarkan pengalaman yang seru dan tak terlupakan.
+            </p>
+            <ul class="popular-list">
                 <% rides.forEach(function(ride) { %> <!-- Ganti ride menjadi rides -->
                     <li>
                         <div class="popular-card">
@@ -557,14 +553,14 @@
                             </figure>
                             <div class="card-content">
                                 <p class="card-subtitle">
-                                    <a href="#"><%= ride.subtitle %></a>
+                                    <a href="#"><%= ride.location %></a> <!-- Menambahkan lokasi -->
                                 </p>
                                 <div class="card-rating">
-                                  <ion-icon name="star"></ion-icon>
-                                  <ion-icon name="star"></ion-icon>
-                                  <ion-icon name="star"></ion-icon>
-                                  <ion-icon name="star"></ion-icon>
-                                  <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
                                 </div>
                                 <h3 class="h3 card-title">
                                     <a href="#"><%= ride.title %></a>
@@ -577,13 +573,11 @@
                     </li>
                 <% }); %>
             </ul>
-            
-
-              <button class="btn btn-primary" id="load-more">More destination</button>
-              <button class="btn btn-primary" id="show-less">Show Less</button>
-
-          </div>
-      </section>
+            <button class="btn btn-primary" id="load-more">More destination</button>
+            <button class="btn btn-primary" id="show-less">Show Less</button>
+        </div>
+    </section>
+    
 
 
 
@@ -1236,6 +1230,87 @@
 
       <section class="package" id="package">
         <div class="container">
+      
+          <p class="section-subtitle">Destination Ticket</p>
+      
+          <h2 class="h2 section-title">Destination in Ancol</h2>
+      
+          <p class="section-text">
+            Ancol menawarkan berbagai macam fasilitas dan atraksi untuk pengunjung dari berbagai kalangan. 
+            Berikut beberapa destinasi di Ancol dengan harga tiket yang disediakan
+          </p>
+      
+          <ul class="package-list">
+            <% for (let i = 0; i < packages.length; i++) { %>
+              <li>
+                <div class="package-card">
+                  <figure class="card-banner">
+                    <img src="<%= packages[i].image %>" alt="<%= packages[i].title %>" loading="lazy">
+                  </figure>
+                  <div class="card-content">
+                    <h3 class="h3 card-title"><%= packages[i].title %></h3>
+                    <p class="card-text"><%= packages[i].description %></p>
+                    <ul class="card-meta-list">
+                      <li class="card-meta-item">
+                          <div class="meta-box">
+                            <ion-icon name="time"></ion-icon>
+    
+                            <p class="text">7D/6N</p>
+                          </div>
+                      </li>
+                      <li class="card-meta-item">
+                        <div class="meta-box">
+                          <ion-icon name="people"></ion-icon>
+                          <p class="text">pax: <%= packages[i].capacity %></p>
+                        </div>
+                      </li>
+                      <li class="card-meta-item">
+                        <div class="meta-box">
+                          <ion-icon name="location"></ion-icon>
+                          <p class="text"><%= packages[i].location %></p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-price">
+                    <div class="wrapper">
+                      <p class="reviews">( <%= packages[i].reviews %> reviews)</p>
+                      <div class="card-rating">
+
+
+      
+                          <div class="card-rating">
+                            <ion-icon name="star"></ion-icon>
+                            <ion-icon name="star"></ion-icon>
+                            <ion-icon name="star"></ion-icon>
+                            <ion-icon name="star"></ion-icon>
+                            <ion-icon name="star"></ion-icon>
+                          </div>
+      
+                        <% for(let j = 0; j < packages[i].rating; j++) { %>
+                          <ion-icon name="star"></ion-icon>
+                        <% } %>
+                      </div>
+                    </div>
+                    <p class="price">
+                      Rp<%= packages[i].price %>
+                      <span>/ per person</span>
+                    </p>
+                    <button class="btn btn-secondary">Book Now</button>
+                  </div>
+                </div>
+              </li>
+            <% } %>
+          </ul>
+      
+          <button class="btn btn-primary" id="view-more">View All Packages</button>
+          <button class="btn btn-primary" id="view-less">View Less</button>
+        </div>
+      </section>
+      
+
+      <!-- <section class="package" id="package">
+        <div class="container">
 
           <p class="section-subtitle">Destination Ticket</p>
 
@@ -1616,7 +1691,7 @@
           <button class="btn btn-primary" id="view-more">View All Packages</button>
           <button class="btn btn-primary" id="view-less">View Less</button>
         </div>
-      </section>
+      </section> -->
 
 
 
@@ -1803,7 +1878,6 @@
       </div>
     </div>
   </footer>
-  
   
   
 

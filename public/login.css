@@ -1,5 +1,7 @@
 /*CSS LOGIN*/
 
+<<<<<<< HEAD
+=======
 :root {
 
   /**
@@ -31,6 +33,7 @@ body {
   background-position: center;
 }
 
+>>>>>>> 1611d846256d88a59baf2261bf0185c333f7278c
 .login-wrapper {
     position: fixed;
     left: 37%;
@@ -40,9 +43,14 @@ body {
     background: #fff;
     border: 2px solid rgba(225, 225, 225, .5);
     border-radius: 20px;
+<<<<<<< HEAD
+    box-shadow: 0 0 30px rgb(0, 0, 0, .5);
+    display: none;
+=======
     backdrop-filter: blur(20px);
     box-shadow: 0 0 30px rgb(0, 0, 0, .5);
     display: flex;
+>>>>>>> 1611d846256d88a59baf2261bf0185c333f7278c
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -52,6 +60,10 @@ body {
   }
   
   .login-wrapper.active-popup {
+<<<<<<< HEAD
+    display: flex;
+=======
+>>>>>>> 1611d846256d88a59baf2261bf0185c333f7278c
     transform: scale(1);
   }
   
@@ -72,7 +84,11 @@ body {
     height: 45px;
     background: var(--bright-navy-blue);
     font-size: 2em;
+<<<<<<< HEAD
+    color: #fff;
+=======
     color: #000000;
+>>>>>>> 1611d846256d88a59baf2261bf0185c333f7278c
     display: flex;
     justify-content: center;
     align-items: center;
@@ -179,17 +195,26 @@ body {
   .btnn {
     width: 100%;
     height: 45px;
+<<<<<<< HEAD
+=======
     margin-top: 10px;
+>>>>>>> 1611d846256d88a59baf2261bf0185c333f7278c
     background: var(--bright-navy-blue);
     border: none;
     outline: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
+<<<<<<< HEAD
+    color: white;
+    font-weight: 500;
+  }
+=======
     color: rgb(255, 255, 255);
     font-weight: 500;
   }
 
+>>>>>>> 1611d846256d88a59baf2261bf0185c333f7278c
   
   .login-register {
     font-size: .9rem;
