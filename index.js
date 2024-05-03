@@ -7,6 +7,7 @@ const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
 const Data = require('./models/Data');
 const Subscribe = require('./models/subscribe');
+const BukingTiket = require('./models/bukingtiket')
 
 // New
 const session = require('express-session');
@@ -103,6 +104,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     res.status(500).json({ message: 'Gagal menyimpan data promosi.' });
 //   }
 // });
+
+
+
+
+router.post('/bookings', async (req, res) => {
+  try {
+    const newTicket = new BukingTiket(req.body);
+    await newTicket.save();
+    res.status(201).json({ message: 'Ticket booked successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to book ticket' });
+  }
+});
+
 
 
 // Endpoint untuk pendaftaran pengguna
@@ -382,6 +398,12 @@ app.post('/subscribe', async (req, res) => {
     res.status(500).send('Gagal menyimpan langganan email.');
   }
 });
+
+
+
+
+
+  
 
 
 
