@@ -1,43 +1,14 @@
 'use strict';
 
-const ticketAdd = document.querySelector('.ticketadd');
+// Pilih semua tombol dengan kelas 'ticketadd'
+const ticketAddButtons = document.querySelectorAll('.ticketadd');
 
-ticketAdd.addEventListener('click', async () => { // Tambahkan async di sini
-  alert('Successfully booked!');
-  try {
-    const packageData = JSON.parse(ticketAdd.dataset.package); // Ganti button menjadi ticketAdd
-    const ticketData = {
-      title: packageData.title,
-      description: packageData.description,
-      image: packageData.image,
-      price: packageData.price,
-      reviews: packageData.reviews,
-      location: packageData.location,
-      capacity: packageData.capacity,
-      bookingDate: new Date()
-    };
-
-    // Kirim data tiket ke server menggunakan permintaan POST
-    const response = await fetch('/api/bookings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(ticketData)
-    });
-
-    // Periksa apakah permintaan berhasil
-    if (response.ok) {
-      alert('Successfully booked!');
-    } else {
-      throw new Error('Failed to book ticket');
-    }
-  } catch (error) {
-    console.error(error);
-    alert('Failed to book ticket');
-  }
+// Loop melalui setiap tombol dan tambahkan event listener
+ticketAddButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    alert('Successfully booked!');
+  });
 });
-
 
 
 // Login Register
@@ -46,31 +17,7 @@ const loginLink = document.querySelector('.login-link');
 const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnlogin-popup');
 const iconClose = document.querySelector('.icon-close');
-const btnBOOK = document.querySelector('.btnBOOKCB');
-const btnBOOK1 = document.querySelector('.btnBOOKCB1');
-const btnBOOK2 = document.querySelector('.btnBOOKCB2');
-const btnBOOK3 = document.querySelector('.btnBOOKCB3');
-const btnBOOK4 = document.querySelector('.btnBOOKCB4');
 
-btnBOOK.addEventListener('click', () => {
-  alert('Successfully booked!');
-});
-
-btnBOOK1.addEventListener('click', () => {
-  alert('Successfully booked!');
-});
-
-btnBOOK2.addEventListener('click', () => {
-  alert('Successfully booked!');
-});
-
-btnBOOK3.addEventListener('click', () => {
-  alert('Successfully booked!');
-});
-
-btnBOOK4.addEventListener('click', () => {
-  alert('Successfully booked!');
-});
 
 registerLink.addEventListener('click', () => {
     wrapper.classList.add('active-pop');

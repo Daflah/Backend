@@ -108,16 +108,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-router.post('/bookings', async (req, res) => {
-  try {
-    const newTicket = new BukingTiket(req.body);
-    await newTicket.save();
-    res.status(201).json({ message: 'Ticket booked successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Failed to book ticket' });
-  }
-});
+// router.post('/bookings', async (req, res) => {
+//   try {
+//     const newTicket = new BukingTiket(req.body);
+//     await newTicket.save();
+//     res.status(201).json({ message: 'Ticket booked successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Failed to book ticket' });
+//   }
+// });
 
 
 

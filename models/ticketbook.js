@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const ticketSchema = new mongoose.Schema({
+// Define the schema for ticket booking data
+const ticketBookingSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -9,17 +10,38 @@ const ticketSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    image: {
+        type: String,
+        required: true,
+    },
     price: {
         type: Number,
         required: true,
     },
-    created: {
+    reviews: {
+        type: Number,
+        required: true,
+    },
+    location: {
+        type: String,
+        required: true,
+    },
+    capacity: {
+        type: Number,
+        required: true,
+    },
+    bookedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the user who booked the ticket
+    },
+    bookingDate: {
         type: Date,
         required: true,
         default: Date.now,
     },
 });
 
-const Ticket = mongoose.model("Ticket", ticketSchema);
+// Create a model for Ticket Booking using the defined schema
+const TicketBooking = mongoose.model("TicketBooking", ticketBookingSchema);
 
-module.exports = Ticket;
+module.exports = TicketBooking;
