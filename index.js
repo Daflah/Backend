@@ -7,7 +7,6 @@ const path = require("path");
 const TodoListItem = require('./models/TodoListitems');
 const Data = require('./models/Data');
 const Subscribe = require('./models/subscribe');
-const BukingTiket = require('./models/bukingtiket')
 
 // New
 const session = require('express-session');
@@ -416,12 +415,6 @@ app.post('/subscribe', requireLogin, async (req, res) => {
     res.status(500).send('Gagal menyimpan langganan email.');
   }
 });
-
-
-
-
-
-  
 
 
 
