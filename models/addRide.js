@@ -14,6 +14,11 @@ const rideSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    location: {
+        type: String,
+        enum: ['Atlantis Ancol', 'Samudra Ancol', 'Sea World Ancol', 'Ecopark Ancol'],
+        required: true,
+    },
     created: {
         type: Date,
         required: true,

@@ -320,39 +320,46 @@ $(document).ready(function() {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    fetch("/carousel_data")
+        .then(response => response.json())
+        .then(data => {
+            const carouselContent = document.getElementById("carousel-content");
+            const carouselDots = document.getElementById("carousel-dots");
+            
+            // Clear existing carousel content
+            carouselContent.innerHTML = "";
+            carouselDots.innerHTML = "";
+            
+            // Populate carousel with fetched data
+            data.forEach((item, index) => {
+                const slide = `
+                    <div class="imgslide fade">
+                        <div class="numberslide">${index + 1}/${data.length}</div>
+                        <img src="/uploads/${item.image}" alt="${item.title}">
+                        <div class="text-slide">${item.title}</div>
+                        <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
+                        <a class="next" onclick="nextSlide(1)">&#10095;</a>
+                    </div>
+                `;
+                carouselContent.innerHTML += slide;
 
+                const dot = `<span class="dot" onclick="dotSlide(${index + 1})"></span>`;
+                carouselDots.innerHTML += dot;
+            });
+        })
+        .catch(error => console.error("Error fetching carousel data:", error));
+});
 
+function closeAlert() {
+  var alert = document.getElementById('alertMessage');
+  alert.style.display = 'none';
+}
 
-    document.addEventListener("DOMContentLoaded", function() {
-        fetch("/carousel_data")
-            .then(response => response.json())
-            .then(data => {
-                const carouselContent = document.getElementById("carousel-content");
-                const carouselDots = document.getElementById("carousel-dots");
-                
-                // Clear existing carousel content
-                carouselContent.innerHTML = "";
-                carouselDots.innerHTML = "";
-                
-                // Populate carousel with fetched data
-                data.forEach((item, index) => {
-                    const slide = `
-                        <div class="imgslide fade">
-                            <div class="numberslide">${index + 1}/${data.length}</div>
-                            <img src="/uploads/${item.image}" alt="${item.title}">
-                            <div class="text-slide">${item.title}</div>
-                            <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
-                            <a class="next" onclick="nextSlide(1)">&#10095;</a>
-                        </div>
-                    `;
-                    carouselContent.innerHTML += slide;
-
-                    const dot = `<span class="dot" onclick="dotSlide(${index + 1})"></span>`;
-                    carouselDots.innerHTML += dot;
-                });
-            })
-            .catch(error => console.error("Error fetching carousel data:", error));
-    });
-
-
-
+// Auto close alert after 5 seconds
+setTimeout(function() {
+  var alert = document.getElementById('alertMessage');
+  if (alert) {
+    alert.style.display = 'none';
+  }
+}, 5000); 
