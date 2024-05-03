@@ -1,38 +1,69 @@
-<%- include('layout/header_login') %>
+<%- include('layout/header-login') %>
 
-    <div class="popup">
-        <div class="login-wrapper active-popup"> 
-            <span class="icon-close">
-                <ion-icon name="close-outline"></ion-icon>
-            </span>
-            <div class="form-box register">
-                <h2>Daftar</h2>
-                <form action="/register" method="POST">
-                    <div class="input-box">
-                        <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
-                        <input type="text" name="username" required>
-                        <label>Username</label>
-                    </div>
-                    <div class="input-box">
-                        <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
-                        <input type="email" name="email" required>
-                        <label>Email</label>
-                    </div>
-                    <div class="input-box">
-                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                        <input type="password" name="password" required>
-                        <label>Password</label>
-                    </div>
-                    <div class="ingat">
-                        <label><input type="checkbox"> Agree Terms & Condition</label>
-                    </div>
-                    <button type="submit" class="btnn">Buat Akun</button>
-                    <div class="login-register">
-                        <p>Udah Ada Akun? <a href="#" class="login-link"> Login </a></p>
-                    </div>
-                </form>
-            </div>
+<div class="popup">
+    <div class="login-wrapper active-popup">
+
+        <div class="form-box login">
+            <h2>Login</h2>
+            <!-- Formulir login -->
+            <form action="/login" method="POST">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+                    <input type="email" name="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                    <input type="password" name="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="ingat">
+                    <label><input type="checkbox"> Simpan password</label>
+                    <a href="#">Lupa password?</a>
+                </div>
+                <button type="submit" class="btnn">Login</button>
+                <div class="login-register">
+                    <p>Belum punya akun bro? <a href="#" class="register-link"> Daftar </a></p>
+                </div>
+            </form>
+            <!-- Tambahkan elemen untuk menampilkan pesan kesalahan -->
+            <% if (typeof errorMessage !== 'undefined') { %>
+                <p class="error-message"><%= errorMessage %></p>
+            <% } %>
+        </div>
+
+        <!-- Formulir pendaftaran -->
+        <div class="form-box register">
+            <h2>Daftar</h2>
+            <form action="/register" method="POST">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <input type="text" name="username" required>
+                    <label>Username</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+                    <input type="email" name="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                    <input type="password" name="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="ingat">
+                    <label><input type="checkbox"> Agree Terms & Condition</label>
+                </div>
+                <button type="submit" class="btnn">Buat Akun</button>
+                <div class="login-register">
+                    <p>Udah Ada Akun? <a href="#" class="login-link"> Login </a></p>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
+
+<%- include('layout/footer') %>
 
 <%- include('layout/footer') %>

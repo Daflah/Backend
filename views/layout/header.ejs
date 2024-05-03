@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>Admin Ancol</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" 
     integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" 
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -12,6 +12,16 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.datatables.net/v/bs4/dt-2.0.5/datatables.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="./images/A_logo.png">
+  <style>
+    /* CSS untuk menyesuaikan warna warning */
+    .bg-warning {
+      background-color: #f49600 !important;  /* Ganti dengan warna yang lebih gelap jika diinginkan */
+    }
+    .btn-warning {
+      background-color: #f49600 !important;
+    }
+  </style>
+
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0056b3;">
@@ -23,26 +33,23 @@
           <div id="my-nav" class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="/admin"><i class="fas fa-home me-1"></i>Home</a>
+                <a class="nav-link text-light" href="/admin"><i class="fas fa-home me-1"></i>Home</a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="/add"><i class="fas fa-user-plus me-1"></i>Add User</a>
+                <a class="nav-link text-light" href="/add"><i class="fas fa-user-plus me-1"></i>Add User</a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="/add_rides"><i class="fas fa-plus"></i></i> Rides</a>
+                <a class="nav-link text-light" href="/add_rides"><i class="fas fa-plus"></i></i> Rides</a>
               </li>
 
               <li class="nav-item active">
-                <a class="nav-link" href="/add_carousel"><i class="fas fa-plus"></i></i> Carousel</a>
+                <a class="nav-link text-light" href="/add_carousel"><i class="fas fa-plus"></i></i> Carousel</a>
               </li>
 
               <li class="nav-item active">
-                <a class="nav-link" href="/add_promo"><i class="fas fa-plus"></i> Promos</a>
+                <a class="nav-link text-light" href="/add_promo"><i class="fas fa-plus"></i>Promos</a>
               </li>
-              
-              <li class="nav-item active">
-                <a class="nav-link" href="/add_ticket"><i class="fas fa-plus"></i> Ticket</a>
-              </li>
+
               <!-- Tambahkan elemen navigasi lainnya di sini -->
             </ul>
           </div>
