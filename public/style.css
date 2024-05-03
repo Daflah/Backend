@@ -1759,7 +1759,7 @@ address {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1em;
-  color: white;
+  color: rgb(255, 255, 255);
   font-weight: 500;
 }
 
@@ -1994,7 +1994,7 @@ address {
 
 
 /* CSS untuk form */
-form {
+.redeem form {
   display: flex;
   flex-direction: column;
   align-items: center;
