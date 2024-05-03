@@ -7,7 +7,9 @@ const fs = require("fs");
 const Ride = require('../models/addRide');
 const Carousel = require('../models/addCarousel');
 const Promo = require('../models/addPromo');
-const Ticket = require('../models/addTicket')
+const Ticket = require('../models/addTicket');
+const BukingTiket = require('../models/bukingtiket');
+
 
 // image upload
 var storage = multer.diskStorage({
@@ -855,7 +857,65 @@ router.post('/update_ticket/:id', upload, async (req, res) => {
 //     }
 // });
 
+// Import model TicketBooking
 
 
+router.post('/book_ticket', async (req, res) => {
+    try {
+        // Mendapatkan data tiket dari permintaan POST
+        const { title, description, image, price, reviews, location, capacity } = req.body;
+
+        // Membuat instance BukingTiket baru
+        const newBooking = new BukingTiket({
+            title,
+            description,
+            image,
+            price,
+            reviews,
+            location,
+            capacity,
+        });
+
+        // Menyimpan buku tiket baru ke dalam database
+        await newBooking.save();
+
+        // Menyiapkan pesan untuk ditampilkan setelah berhasil memesan tiket
+        const message = 'Ticket booked successfully!';
+
+        // Mengirim respons dengan pesan
+        res.status(200).json({ message });
+    } catch (error) {
+        // Menangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+
+
+
+  router.post('/add_ticket', async (req, res) => {
+    try {
+      const { title, description, image, price, reviews, location, capacity } = req.body;
+  
+      // Simpan data ke MongoDB
+      const newTicket = new BukingTiket({
+        title,
+        description,
+        image,
+        price,
+        reviews,
+        location,
+        capacity
+      });
+      await newTicket.save();
+  
+      res.json({ success: true, message: 'Ticket booked successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  });
 
 module.exports = router;
