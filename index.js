@@ -141,7 +141,7 @@ app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     
     // Periksa apakah email adalah email admin
-    if (email === 'admin@example.com') {
+    if (email === 'adminAncol@gmail.com') {
       // Validasi password untuk akun admin
       if (password !== 'adminpass') {
         return res.status(401).send('Password salah untuk akun admin.');
@@ -407,8 +407,6 @@ app.get("/userdashboard", (req,res) =>{
 app.get("/login", (req,res) =>{
   res.render("login.ejs");
 });
-
-
 
 app.listen(port, () => {
   console.log(`Webserver app listening port ${port}`);
