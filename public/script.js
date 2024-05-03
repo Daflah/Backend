@@ -1,5 +1,44 @@
 'use strict';
 
+const ticketAdd = document.querySelector('.ticketadd');
+
+ticketAdd.addEventListener('click', async () => { // Tambahkan async di sini
+  alert('Successfully booked!');
+  try {
+    const packageData = JSON.parse(ticketAdd.dataset.package); // Ganti button menjadi ticketAdd
+    const ticketData = {
+      title: packageData.title,
+      description: packageData.description,
+      image: packageData.image,
+      price: packageData.price,
+      reviews: packageData.reviews,
+      location: packageData.location,
+      capacity: packageData.capacity,
+      bookingDate: new Date()
+    };
+
+    // Kirim data tiket ke server menggunakan permintaan POST
+    const response = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(ticketData)
+    });
+
+    // Periksa apakah permintaan berhasil
+    if (response.ok) {
+      alert('Successfully booked!');
+    } else {
+      throw new Error('Failed to book ticket');
+    }
+  } catch (error) {
+    console.error(error);
+    alert('Failed to book ticket');
+  }
+});
+
+
 
 // Login Register
 const wrapper = document.querySelector('.login-wrapper');
@@ -338,3 +377,14 @@ setTimeout(function() {
     alert.style.display = 'none';
   }
 }, 5000); 
+
+
+// Dapatkan elemen tombol "Add Ticket"
+
+
+
+
+
+
+
+  

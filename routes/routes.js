@@ -7,7 +7,9 @@ const fs = require("fs");
 const Ride = require('../models/addRide');
 const Carousel = require('../models/addCarousel');
 const Promo = require('../models/addPromo');
-const Ticket = require('../models/addTicket')
+const Ticket = require('../models/addTicket');
+const BukingTiket = require('../models/bukingtiket');
+
 
 // image upload
 var storage = multer.diskStorage({
@@ -201,6 +203,45 @@ router.get("/edit_ride/:id", async (req, res) => {
         }
         res.render('edit_rides', { title: "Edit Ride", ride: ride, locations: ["Atlantis Ancol", "Samudra Ancol", "Sea World Ancol", "Ecopark Ancol"] });
     } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+router.post("/delete_promo/:id", async (req, res) => {
+    try {
+        // Cari promo berdasarkan ID yang diberikan
+        const promo = await Promo.findById(req.params.id);
+
+        // Periksa apakah promo ditemukan
+        if (!promo) {
+            // Jika tidak, kirim respons 404
+            return res.status(404).json({ message: 'Promo not found', type: 'danger' });
+        }
+
+        // Hapus foto promo dari sistem file jika ada
+        const filePath = './uploads/' + promo.image;
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        } else {
+            console.error("File not found:", filePath);
+            // Jika file tidak ditemukan, kirim respons 404
+            return res.status(404).json({ message: 'File not found', type: 'danger' });
+        }
+
+        // Hapus promo dari database
+        await Promo.findByIdAndDelete(req.params.id);
+        
+        // Set pesan bahwa promo berhasil dihapus
+        req.session.message = {
+            type: 'info',
+            message: 'Promo deleted successfully!'
+        };
+
+        // Redirect ke halaman add_promo
+        res.redirect("/add_promo");
+    } catch (error) {
+        // Tangani kesalahan jika ada
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
     }
@@ -847,7 +888,65 @@ router.post('/update_ticket/:id', upload, async (req, res) => {
 //     }
 // });
 
+// Import model TicketBooking
 
 
+router.post('/book_ticket', async (req, res) => {
+    try {
+        // Mendapatkan data tiket dari permintaan POST
+        const { title, description, image, price, reviews, location, capacity } = req.body;
+
+        // Membuat instance BukingTiket baru
+        const newBooking = new BukingTiket({
+            title,
+            description,
+            image,
+            price,
+            reviews,
+            location,
+            capacity,
+        });
+
+        // Menyimpan buku tiket baru ke dalam database
+        await newBooking.save();
+
+        // Menyiapkan pesan untuk ditampilkan setelah berhasil memesan tiket
+        const message = 'Ticket booked successfully!';
+
+        // Mengirim respons dengan pesan
+        res.status(200).json({ message });
+    } catch (error) {
+        // Menangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+
+
+
+  router.post('/add_ticket', async (req, res) => {
+    try {
+      const { title, description, image, price, reviews, location, capacity } = req.body;
+  
+      // Simpan data ke MongoDB
+      const newTicket = new BukingTiket({
+        title,
+        description,
+        image,
+        price,
+        reviews,
+        location,
+        capacity
+      });
+      await newTicket.save();
+  
+      res.json({ success: true, message: 'Ticket booked successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  });
 
 module.exports = router;
