@@ -123,6 +123,13 @@ app.post("/register", async (req, res) => {
     // Simpan pengguna baru ke dalam database
     const savedUser = await newUser.save();
     console.log('Data pengguna berhasil disimpan:', savedUser);
+
+    // Setelah pendaftaran berhasil, atur sesi untuk menandakan bahwa pengguna telah masuk
+    req.session.user = {
+      id: savedUser._id, // Misalnya, menyimpan ID pengguna dalam sesi
+      username: savedUser.name // Menyimpan nama pengguna dalam sesi
+    };
+
     // res.send('Pendaftaran berhasil.');
     res.redirect('/userdashboard'); // Mengarahkan pengguna ke halaman dashboard setelah pendaftaran berhasil
 
@@ -147,6 +154,10 @@ app.post("/login", async (req, res) => {
         return res.status(401).send('Password salah untuk akun admin.');
       }
       // Jika email adalah email admin dan password sesuai, langsung redirect ke halaman admin
+      req.session.user = {
+        email: email,
+        isAdmin: true // Menyimpan informasi bahwa ini adalah admin
+      };
       return res.redirect('/admin');
     }
 
@@ -167,9 +178,9 @@ app.post("/login", async (req, res) => {
       return res.status(401).send('Password salah.');
     }
     // Jika berhasil, kirimkan pesan login berhasil
-    req.session.message = {
-      type: 'success',
-      message: 'Login berhasil.'
+    req.session.user = {
+      email: email,
+      isAdmin: false // Menyimpan informasi bahwa ini adalah pengguna biasa
     };
     // Mengarahkan pengguna ke halaman dashboard setelah login berhasil
     return res.redirect('/userdashboard');
@@ -181,7 +192,14 @@ app.post("/login", async (req, res) => {
 
 
 
-
+//cek authentication
+function requireLogin(req, res, next) {
+  if (req.session && req.session.user) {
+      return next();
+  } else {
+      res.redirect('/login');
+  }
+}
 
 
 // Tambahkan penanganan permintaan POST untuk login
@@ -303,7 +321,7 @@ app.get("/", async (req, res) => {
 
 
 // Di dalam penanganan permintaan POST untuk rute "/inquire-now"
-app.post("/inquire-now", async (req, res) => {
+app.post("/inquire-now", requireLogin, async (req, res) => {
   try {
     const { destination, people, checkin, checkout } = req.body;
 
@@ -320,7 +338,7 @@ app.post("/inquire-now", async (req, res) => {
     };
 
     // Redirect ke halaman yang sama (localhost:3000)
-    res.redirect('/');
+    res.redirect('/userdashboard');
 
   } catch (error) {
     // Tangani kesalahan jika penyimpanan data gagal
@@ -354,7 +372,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 // Menangani permintaan POST dari formulir langganan
-app.post('/subscribe', async (req, res) => {
+app.post('/subscribe', requireLogin, async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -373,7 +391,7 @@ app.post('/subscribe', async (req, res) => {
     };
 
     // Redirect ke halaman utama (localhost:3000)
-    res.redirect('/');
+    res.redirect('/userdashboard');
 
   } catch (error) {
     // Tangani kesalahan
