@@ -147,7 +147,7 @@
 
         </nav>
 
-        <button class="btn btn-primary btnlogin-popup">Login</button>
+        <button class="btn btn-primary btnlogin-popup"><a href="/login">Login</a></button>
 
       </div>
     </div>
@@ -172,7 +172,7 @@
     
             <div class="form-box login">
                 <h2>Login</h2>
-                <!-- Formulir login -->
+
                 <form action="/login" method="POST">
                     <div class="input-box">
                         <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
@@ -193,14 +193,6 @@
                         <p>Belum punya akun bro? <a href="#" class="register-link"> Daftar </a></p>
                     </div>
                 </form>
-                <!-- Tampilkan pesan kesalahan jika ada -->
-                <% if (typeof errorMessage !== 'undefined') { %>
-                    <p class="error-message"><%= errorMessage %></p>
-                <% } %>
-                <!-- Tampilkan pesan sukses jika ada -->
-                <% if (typeof successMessage !== 'undefined') { %>
-                    <p class="success-message"><%= successMessage %></p>
-                <% } %>
             </div>
     
             <!-- Formulir pendaftaran -->
@@ -522,10 +514,12 @@
   <!-- 
         - #Test
       -->
-      <form class="typing" action="/index" method="POST">
-        <input   type="text" id="title" name="title" placeholder="Insert Promo Code">
-        <button type="submit">Redeem</button>
-      </form>
+      <div class="redeem">
+        <form class="typing" action="/index" method="POST">
+          <input   type="text" id="title" name="title" placeholder="Insert Promo Code">
+          <button type="submit">Redeem</button>
+        </form>
+      </div>
  
    <!-- Pop up -->
    <div class="popup-overlay" id="popup" style="display: none;">
@@ -1301,7 +1295,7 @@
                       Rp<%= packages[i].price %>
                       <span>/ per person</span>
                     </p>
-                    <button class="btn btn-secondary add-ticket-btn ticketadd ">Add Ticket</button>
+                    <button class="btn btn-secondary add-ticket-btn ticketadd">Add Ticket</button>
 
                   </div>
                 </div>
@@ -1395,8 +1389,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
-
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB">Book Now</button>
                 </div>
 
               </div>
@@ -1468,7 +1461,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB1">Book Now</button>
 
                 </div>
 
@@ -1539,7 +1532,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB2">Book Now</button>
 
                 </div>
 
@@ -1612,7 +1605,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB3">Book Now</button>
 
                 </div>
 
@@ -1685,7 +1678,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB4">Book Now</button>
 
                 </div>
 
