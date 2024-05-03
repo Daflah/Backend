@@ -18,6 +18,15 @@
                             <textarea name="description" class="form-control" placeholder="Enter description" required><%= ride.description %></textarea>
                         </div>
                         <div class="mb-3">
+                            <label for="location">Location</label>
+                            <select name="location" class="form-control" required>
+                                <option value="Atlantis Ancol" <%= ride.location === 'Atlantis Ancol' ? 'selected' : '' %>>Atlantis Ancol</option>
+                                <option value="Samudra Ancol" <%= ride.location === 'Samudra Ancol' ? 'selected' : '' %>>Samudra Ancol</option>
+                                <option value="Sea World Ancol" <%= ride.location === 'Sea World Ancol' ? 'selected' : '' %>>Sea World Ancol</option>
+                                <option value="Ecopark Ancol" <%= ride.location === 'Ecopark Ancol' ? 'selected' : '' %>>Ecopark Ancol</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="image" class="form-label">Select New Image</label>
                             <input class="form-control" type="file" name="image" />
                             <img src="/<%= ride.image %>" width="100" class="img-thumbnail mt-1"> <!-- Menampilkan gambar yang sudah ada -->

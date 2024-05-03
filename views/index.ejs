@@ -542,18 +542,14 @@
         - #POPULAR
       -->
 
-            <section class="popular" id="rides">
-          <div class="container">
-
-              <p class="section-subtitle">Ancol Adventure</p>
-
-              <h2 class="h2 section-title">Tours and Rides in Ancol</h2>
-
-              <p class="section-text">
-                  SeaWorld, Atlantis, Samudra, Pantai, dan Eco Park di Ancol menawarkan pengalaman yang seru dan tak terlupakan.
-              </p>
-
-              <ul class="popular-list">
+      <section class="popular" id="rides">
+        <div class="container">
+            <p class="section-subtitle">Ancol Adventure</p>
+            <h2 class="h2 section-title">Tours and Rides in Ancol</h2>
+            <p class="section-text">
+                SeaWorld, Atlantis, Samudra, Pantai, dan Eco Park di Ancol menawarkan pengalaman yang seru dan tak terlupakan.
+            </p>
+            <ul class="popular-list">
                 <% rides.forEach(function(ride) { %> <!-- Ganti ride menjadi rides -->
                     <li>
                         <div class="popular-card">
@@ -562,14 +558,14 @@
                             </figure>
                             <div class="card-content">
                                 <p class="card-subtitle">
-                                    <a href="#"><%= ride.subtitle %></a>
+                                    <a href="#"><%= ride.location %></a> <!-- Menambahkan lokasi -->
                                 </p>
                                 <div class="card-rating">
-                                  <ion-icon name="star"></ion-icon>
-                                  <ion-icon name="star"></ion-icon>
-                                  <ion-icon name="star"></ion-icon>
-                                  <ion-icon name="star"></ion-icon>
-                                  <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
                                 </div>
                                 <h3 class="h3 card-title">
                                     <a href="#"><%= ride.title %></a>
@@ -582,13 +578,11 @@
                     </li>
                 <% }); %>
             </ul>
-            
-
-              <button class="btn btn-primary" id="load-more">More destination</button>
-              <button class="btn btn-primary" id="show-less">Show Less</button>
-
-          </div>
-      </section>
+            <button class="btn btn-primary" id="load-more">More destination</button>
+            <button class="btn btn-primary" id="show-less">Show Less</button>
+        </div>
+    </section>
+    
 
 
 

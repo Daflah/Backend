@@ -152,14 +152,15 @@ router.get("/add_rides", async (req, res) => {
         // Ambil data rides dari database atau dari sumber lainnya
         const rides = await Ride.find(); // Misalnya menggunakan model Ride dari MongoDB
 
-        // Render halaman add_rides.ejs dengan data rides dan title
-        res.render('add_rides', { title: "Add Rides", rides: rides });
+        // Render halaman add_rides.ejs dengan data rides, title, dan lokasi
+        res.render('add_rides', { title: "Add Rides", rides: rides, locations: ["Atlantis Ancol", "Samudra Ancol", "Sea World Ancol", "Ecopark Ancol"] });
     } catch (error) {
         // Tangani kesalahan jika terjadi
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
     }
 });
+
 
 // Menangani penambahan ride baru ke dalam database
 // Kemudian Anda dapat menggunakan model Ride di dalam rute-rute Anda
@@ -169,6 +170,7 @@ router.post('/add_rides', upload, async (req, res) => {
             title: req.body.title,
             description: req.body.description,
             image: req.file.filename,
+            location: req.body.location // Menambahkan lokasi ride
         });
         
         // Menyimpan ride baru ke dalam database
@@ -189,17 +191,6 @@ router.post('/add_rides', upload, async (req, res) => {
     }
 });
 
-//tambahan untuk ke home
-// router.get("/", async (req, res) => {
-//     try {
-//         const rides = await Ride.find(); // Mendapatkan data rides dari database
-//         res.render("index", { title: "Home", rides: rides }); // Mengirim data rides ke dalam template
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: error.message, type: 'danger' });
-//     }
-// });
-
 
 // Edit ride route
 router.get("/edit_ride/:id", async (req, res) => {
@@ -208,12 +199,14 @@ router.get("/edit_ride/:id", async (req, res) => {
         if (!ride) {
             return res.status(404).json({ message: 'Ride not found', type: 'danger' });
         }
-        res.render('edit_rides', { title: "Edit Ride", ride: ride });
+        res.render('edit_rides', { title: "Edit Ride", ride: ride, locations: ["Atlantis Ancol", "Samudra Ancol", "Sea World Ancol", "Ecopark Ancol"] });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
     }
 });
+
+
 
 
 // Delete ride route
@@ -275,11 +268,12 @@ router.post('/update_ride/:id', upload, async (req, res) => {
             newImage = req.body.old_image;
         }
 
-        // Perbarui data ride di database
+        // Perbarui data ride di database, termasuk lokasi
         const updatedRide = await Ride.findByIdAndUpdate(id, {
             title: req.body.title,
             description: req.body.description,
             image: newImage, // Gunakan nama file gambar yang baru
+            location: req.body.location // Perbarui lokasi ride
         });
 
         // Periksa apakah ride berhasil diperbarui
@@ -304,71 +298,78 @@ router.post('/update_ride/:id', upload, async (req, res) => {
 });
 
 
+
 router.get("/", async (req, res) => {
     try {
-      // Mendapatkan data rides dari database
-      const rides = await Ride.find();
-      // Mendapatkan data promos dari database
-      const promos = await Promo.find();
-      // Mendapatkan data carousel dari database
-      const carousels = await Carousel.find();
-      // Mendapatkan data paket wisata dari database
-      const packages = await Ticket.find(); // Sesuaikan dengan model dan nama koleksi yang benar
-  
-      // Ambil pesan dari session jika ada
-      let inquireMessage = req.session.inquireMessage;
-      const subscribeMessage = req.session.subscribeMessage;
-  
-      // Set inquireMessage ke null jika ada
-      if (inquireMessage) {
-        req.session.inquireMessage = null;
-      } else {
-        inquireMessage = null; // Set inquireMessage ke null jika tidak ada
-      }
-  
-      // Render halaman dengan objek pesan yang didefinisikan di locals
-      res.render("index", { title: "Home", rides, promos, carousels, packages, inquireMessage, subscribeMessage });
+        // Mendapatkan data rides dari database
+        const rides = await Ride.find();
+        // Mendapatkan data promos dari database
+        const promos = await Promo.find();
+        // Mendapatkan data carousel dari database
+        const carousels = await Carousel.find();
+        // Mendapatkan data paket wisata dari database
+        const packages = await Ticket.find(); // Sesuaikan dengan model dan nama koleksi yang benar
+
+        // Informasi lokasi yang ingin ditampilkan
+        const locations = ["Atlantis Ancol", "Samudra Ancol", "Sea World Ancol", "Ecopark Ancol"];
+
+        // Ambil pesan dari session jika ada
+        let inquireMessage = req.session.inquireMessage;
+        const subscribeMessage = req.session.subscribeMessage;
+
+        // Set inquireMessage ke null jika ada
+        if (inquireMessage) {
+            req.session.inquireMessage = null;
+        } else {
+            inquireMessage = null; // Set inquireMessage ke null jika tidak ada
+        }
+
+        // Render halaman dengan objek pesan yang didefinisikan di locals
+        res.render("index", { title: "Home", rides, promos, carousels, packages, inquireMessage, subscribeMessage, locations });
     } catch (error) {
-      console.error('Gagal merender halaman utama:', error);
-      const inquireMessage = null; // Atur ke null jika terjadi kesalahan
-      const subscribeMessage = req.session.subscribeMessage;
-      res.status(500).send('Gagal merender halaman utama.');
+        console.error('Gagal merender halaman utama:', error);
+        const inquireMessage = null; // Atur ke null jika terjadi kesalahan
+        const subscribeMessage = req.session.subscribeMessage;
+        res.status(500).send('Gagal merender halaman utama.');
     }
-  });
-  
+});
+
   
 
-  router.get("/", async (req, res) => {
+router.get("/userdashboard", async (req, res) => {
     try {
-      // Mendapatkan data rides dari database
-      const rides = await Ride.find();
-      // Mendapatkan data promos dari database
-      const promos = await Promo.find();
-      // Mendapatkan data carousel dari database
-      const carousels = await Carousel.find();
-      // Mendapatkan data paket wisata dari database
-      const packages = await Ticket.find(); // Sesuaikan dengan model dan nama koleksi yang benar
-  
-      // Ambil pesan dari session jika ada
-      let inquireMessage = req.session.inquireMessage;
-      const subscribeMessage = req.session.subscribeMessage;
-  
-      // Set inquireMessage ke null jika ada
-      if (inquireMessage) {
-        req.session.inquireMessage = null;
-      } else {
-        inquireMessage = null; // Set inquireMessage ke null jika tidak ada
-      }
-  
-      // Render halaman dengan objek pesan yang didefinisikan di locals
-      res.render("index", { title: "Home", rides, promos, carousels, packages, inquireMessage, subscribeMessage });
+        // Mendapatkan data rides dari database
+        const rides = await Ride.find();
+        // Mendapatkan data promos dari database
+        const promos = await Promo.find();
+        // Mendapatkan data carousel dari database
+        const carousels = await Carousel.find();
+        // Mendapatkan data paket wisata dari database
+        const packages = await Ticket.find(); // Sesuaikan dengan model dan nama koleksi yang benar
+
+        // Informasi lokasi yang ingin ditampilkan
+        const locations = ["Atlantis Ancol", "Samudra Ancol", "Sea World Ancol", "Ecopark Ancol"];
+
+        // Ambil pesan dari session jika ada
+        let inquireMessage = req.session.inquireMessage;
+        const subscribeMessage = req.session.subscribeMessage;
+
+        // Set inquireMessage ke null jika ada
+        if (inquireMessage) {
+            req.session.inquireMessage = null;
+        } else {
+            inquireMessage = null; // Set inquireMessage ke null jika tidak ada
+        }
+
+        // Render halaman dengan objek pesan yang didefinisikan di locals
+        res.render("index", { title: "Home", rides, promos, carousels, packages, inquireMessage, subscribeMessage, locations });
     } catch (error) {
-      console.error('Gagal merender halaman utama:', error);
-      const inquireMessage = null; // Atur ke null jika terjadi kesalahan
-      const subscribeMessage = req.session.subscribeMessage;
-      res.status(500).send('Gagal merender halaman utama.');
+        console.error('Gagal merender halaman utama:', error);
+        const inquireMessage = null; // Atur ke null jika terjadi kesalahan
+        const subscribeMessage = req.session.subscribeMessage;
+        res.status(500).send('Gagal merender halaman utama.');
     }
-  });
+});
 
 
 // Menampilkan halaman tambah carousel
