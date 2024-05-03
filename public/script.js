@@ -1,5 +1,15 @@
 'use strict';
 
+// Pilih semua tombol dengan kelas 'ticketadd'
+const ticketAddButtons = document.querySelectorAll('.ticketadd');
+
+// Loop melalui setiap tombol dan tambahkan event listener
+ticketAddButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    alert('Successfully booked!');
+  });
+});
+
 
 // Login Register
 const wrapper = document.querySelector('.login-wrapper');
@@ -7,6 +17,7 @@ const loginLink = document.querySelector('.login-link');
 const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnlogin-popup');
 const iconClose = document.querySelector('.icon-close');
+
 
 registerLink.addEventListener('click', () => {
     wrapper.classList.add('active-pop');
@@ -338,3 +349,14 @@ setTimeout(function() {
     alert.style.display = 'none';
   }
 }, 5000); 
+
+
+// Dapatkan elemen tombol "Add Ticket"
+
+
+
+
+
+
+
+  

@@ -147,7 +147,7 @@
 
         </nav>
 
-        <button class="btn btn-primary btnlogin-popup"><a href="/login">Login</a></button>
+        <button class="btn btn-primary btnlogin-popup">Login</button>
 
       </div>
     </div>
@@ -164,7 +164,7 @@
       <!-- 
         - #HERO
       -->
-      <!-- <div class="popup">
+      <div class="popup">
         <div class="login-wrapper">
             <span class="icon-close">
                 <ion-icon name="close-outline"></ion-icon>
@@ -172,6 +172,7 @@
     
             <div class="form-box login">
                 <h2>Login</h2>
+                <!-- Formulir login -->
                 <form action="/login" method="POST">
                     <div class="input-box">
                         <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
@@ -192,11 +193,17 @@
                         <p>Belum punya akun bro? <a href="#" class="register-link"> Daftar </a></p>
                     </div>
                 </form>
-
-
+                <!-- Tampilkan pesan kesalahan jika ada -->
+                <% if (typeof errorMessage !== 'undefined') { %>
+                    <p class="error-message"><%= errorMessage %></p>
+                <% } %>
+                <!-- Tampilkan pesan sukses jika ada -->
+                <% if (typeof successMessage !== 'undefined') { %>
+                    <p class="success-message"><%= successMessage %></p>
+                <% } %>
             </div>
     
-
+            <!-- Formulir pendaftaran -->
             <div class="form-box register">
                 <h2>Daftar</h2>
                 <form action="/register" method="POST">
@@ -225,8 +232,8 @@
                 </form>
             </div>
         </div>
-    </div>
-     -->
+    </div>    
+    
     
 
 
@@ -515,12 +522,10 @@
   <!-- 
         - #Test
       -->
-      <div class="redeem">
-        <form class="typing" action="/index" method="POST">
-          <input   type="text" id="title" name="title" placeholder="Insert Promo Code">
-          <button type="submit">Redeem</button>
-        </form>
-      </div>
+      <form class="typing" action="/index" method="POST">
+        <input   type="text" id="title" name="title" placeholder="Insert Promo Code">
+        <button type="submit">Redeem</button>
+      </form>
  
    <!-- Pop up -->
    <div class="popup-overlay" id="popup" style="display: none;">
@@ -1296,7 +1301,8 @@
                       Rp<%= packages[i].price %>
                       <span>/ per person</span>
                     </p>
-                    <button class="btn btn-secondary">Book Now</button>
+                    <button class="btn btn-secondary add-ticket-btn ticketadd">Add Ticket</button>
+
                   </div>
                 </div>
               </li>
@@ -1389,8 +1395,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
-
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB">Book Now</button>
                 </div>
 
               </div>
@@ -1462,7 +1467,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB1">Book Now</button>
 
                 </div>
 
@@ -1533,7 +1538,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB2">Book Now</button>
 
                 </div>
 
@@ -1606,7 +1611,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB3">Book Now</button>
 
                 </div>
 
@@ -1679,7 +1684,7 @@
                     <span>/ per person</span>
                   </p>
 
-                  <button class="btn btn-secondary">Book Now</button>
+                  <button id="bookNowBtn" class="btn btn-secondary btnBOOKCB4">Book Now</button>
 
                 </div>
 
