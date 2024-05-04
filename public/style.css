@@ -88,6 +88,10 @@ label,
 button,
 ion-icon { display: block; }
 
+a {
+  color: white;
+}
+
 a,
 input,
 button {
