@@ -11,6 +11,7 @@ const Ticket = require('../models/addTicket');
 const BukingTiket = require('../models/bukingtiket');
 
 
+
 // image upload
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -25,6 +26,9 @@ var upload = multer({
     storage: storage
 }).single("image");
 
+
+
+// --- Bagian Admin ---
 // insert an admin into database route
 router.post('/add', upload, async (req, res) => {
     try {
@@ -78,7 +82,6 @@ router.get("/edit/:id", async (req, res) => { // Tambahkan async di sini
 });
 
 //update user route 
-
 router.post('/update/:id', upload, async (req, res) => {
     try {
         let id = req.params.id;
@@ -148,6 +151,9 @@ router.get('/delete/:id', async (req, res) => {
     }
 });
 
+
+
+// --- Bagian Rides ---
 // Menampilkan halaman tambah ride
 router.get("/add_rides", async (req, res) => {
     try {
@@ -162,7 +168,6 @@ router.get("/add_rides", async (req, res) => {
         res.status(500).json({ message: error.message, type: 'danger' });
     }
 });
-
 
 // Menangani penambahan ride baru ke dalam database
 // Kemudian Anda dapat menggunakan model Ride di dalam rute-rute Anda
@@ -208,49 +213,6 @@ router.get("/edit_ride/:id", async (req, res) => {
     }
 });
 
-router.post("/delete_promo/:id", async (req, res) => {
-    try {
-        // Cari promo berdasarkan ID yang diberikan
-        const promo = await Promo.findById(req.params.id);
-
-        // Periksa apakah promo ditemukan
-        if (!promo) {
-            // Jika tidak, kirim respons 404
-            return res.status(404).json({ message: 'Promo not found', type: 'danger' });
-        }
-
-        // Hapus foto promo dari sistem file jika ada
-        const filePath = './uploads/' + promo.image;
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-        } else {
-            console.error("File not found:", filePath);
-            // Jika file tidak ditemukan, kirim respons 404
-            return res.status(404).json({ message: 'File not found', type: 'danger' });
-        }
-
-        // Hapus promo dari database
-        await Promo.findByIdAndDelete(req.params.id);
-        
-        // Set pesan bahwa promo berhasil dihapus
-        req.session.message = {
-            type: 'info',
-            message: 'Promo deleted successfully!'
-        };
-
-        // Redirect ke halaman add_promo
-        res.redirect("/add_promo");
-    } catch (error) {
-        // Tangani kesalahan jika ada
-        console.error(error);
-        res.status(500).json({ message: error.message, type: 'danger' });
-    }
-});
-
-
-
-
-// Delete ride route
 // Delete ride route
 router.post("/delete_ride/:id", async (req, res) => {
     try {
@@ -281,8 +243,6 @@ router.post("/delete_ride/:id", async (req, res) => {
         res.status(500).json({ message: error.message, type: 'danger' });
     }
 });
-
-
 
 // Rute untuk memperbarui data ride
 router.post('/update_ride/:id', upload, async (req, res) => {
@@ -338,8 +298,7 @@ router.post('/update_ride/:id', upload, async (req, res) => {
     }
 });
 
-
-
+// --- Bagian Handling Request ---
 router.get("/", async (req, res) => {
     try {
         // Mendapatkan data rides dari database
@@ -375,37 +334,40 @@ router.get("/", async (req, res) => {
     }
 });
 
-  
-  router.get("/login", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-      // Mendapatkan data rides dari database
-      const rides = await Ride.find();
-      // Mendapatkan data promos dari database
-      const promos = await Promo.find();
-      // Mendapatkan data carousel dari database
-      const carousels = await Carousel.find();
-  
-      // Ambil pesan dari session jika ada
-      let inquireMessage = req.session.inquireMessage;
-      const subscribeMessage = req.session.subscribeMessage;
-  
-      // Set inquireMessage ke null jika ada
-      if (inquireMessage) {
-        req.session.inquireMessage = null;
-      } else {
-        inquireMessage = null; // Set inquireMessage ke null jika tidak ada
-      }
-  
-      // Render halaman dengan objek pesan yang didefinisikan di locals
-      res.render("login", { title: "Home", rides, promos, carousels, inquireMessage, subscribeMessage });
+        // Mendapatkan data rides dari database
+        const rides = await Ride.find();
+        // Mendapatkan data promos dari database
+        const promos = await Promo.find();
+        // Mendapatkan data carousel dari database
+        const carousels = await Carousel.find();
+        // Mendapatkan data paket wisata dari database
+        const packages = await Ticket.find(); // Sesuaikan dengan model dan nama koleksi yang benar
+
+        // Informasi lokasi yang ingin ditampilkan
+        const locations = ["Atlantis Ancol", "Samudra Ancol", "Sea World Ancol", "Ecopark Ancol"];
+
+        // Ambil pesan dari session jika ada
+        let inquireMessage = req.session.inquireMessage;
+        const subscribeMessage = req.session.subscribeMessage;
+
+        // Set inquireMessage ke null jika ada
+        if (inquireMessage) {
+            req.session.inquireMessage = null;
+        } else {
+            inquireMessage = null; // Set inquireMessage ke null jika tidak ada
+        }
+
+        // Render halaman dengan objek pesan yang didefinisikan di locals
+        res.render("index", { title: "Home", rides, promos, carousels, packages, inquireMessage, subscribeMessage, locations });
     } catch (error) {
-      console.error('Gagal merender halaman utama:', error);
-      const inquireMessage = null; // Atur ke null jika terjadi kesalahan
-      const subscribeMessage = req.session.subscribeMessage;
-      res.status(500).send('Gagal merender halaman utama.');
+        console.error('Gagal merender halaman utama:', error);
+        const inquireMessage = null; // Atur ke null jika terjadi kesalahan
+        const subscribeMessage = req.session.subscribeMessage;
+        res.status(500).send('Gagal merender halaman utama.');
     }
-  });
-  
+});
 
 router.get("/userdashboard", async (req, res) => {
     try {
@@ -443,6 +405,8 @@ router.get("/userdashboard", async (req, res) => {
 });
 
 
+
+// --- Bagian Carousel ---
 // Menampilkan halaman tambah carousel
 router.get("/add_carousel", async (req, res) => {
     try {
@@ -510,26 +474,6 @@ router.get("/edit_carousel/:id", async (req, res) => {
         res.status(500).json({ message: error.message, type: 'danger' });
     }
 });
-
-router.get("/edit_promo/:id", async (req, res) => {
-    try {
-        // Cari promo berdasarkan ID yang diberikan
-        const promo = await Promo.findById(req.params.id);
-        
-        // Periksa apakah promo ditemukan
-        if (!promo) {
-            return res.status(404).json({ message: 'Promo not found', type: 'danger' });
-        }
-        
-        // Render halaman edit_promo.ejs dengan data promo dan title
-        res.render('edit_promo', { title: "Edit Promo", promo: promo });
-    } catch (error) {
-        // Tangani kesalahan jika terjadi
-        console.error(error);
-        res.status(500).json({ message: error.message, type: 'danger' });
-    }
-});
-
 
 // Delete carousel route
 router.post("/delete_carousel/:id", async (req, res) => {
@@ -619,6 +563,65 @@ router.post('/update_carousel/:id', upload, async (req, res) => {
 });
 
 
+// --- Bagian Promo ---
+// halaman tambah promo
+router.get("/add_promo", async (req, res) => {
+    try {
+        const promos = await Promo.find(); 
+        res.render("add_promo", { title: "Add New Promo", promos: promos }); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+
+// Menangani penambahan promo baru
+router.post('/add_promo', upload, async (req, res) => {
+    try {
+        const promo = new Promo({
+            title: req.body.title,
+            description: req.body.description,
+            image: req.file.filename,
+        });
+
+        // Menyimpan promo baru ke dalam database
+        await promo.save();
+
+        // Menyiapkan pesan untuk ditampilkan setelah berhasil menambahkan promo
+        req.session.message = {
+            type: 'success',
+            message: 'Promo added successfully!'
+        };
+
+        // Mengarahkan pengguna kembali ke halaman utama
+        res.redirect('/add_promo');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+router.get("/edit_promo/:id", async (req, res) => {
+    try {
+        // Cari promo berdasarkan ID yang diberikan
+        const promo = await Promo.findById(req.params.id);
+        
+        // Periksa apakah promo ditemukan
+        if (!promo) {
+            return res.status(404).json({ message: 'Promo not found', type: 'danger' });
+        }
+        
+        // Render halaman edit_promo.ejs dengan data promo dan title
+        res.render('edit_promo', { title: "Edit Promo", promo: promo });
+    } catch (error) {
+        // Tangani kesalahan jika terjadi
+        console.error(error);
+        res.status(500).json({ message: error.message, type: 'danger' });
+    }
+});
+
+
 // Route to update promo data
 router.post('/update_promo/:id', upload, async (req, res) => {
     try {
@@ -672,44 +675,48 @@ router.post('/update_promo/:id', upload, async (req, res) => {
     }
 });
 
-// halaman tambah promo
-router.get("/add_promo", async (req, res) => {
+router.post("/delete_promo/:id", async (req, res) => {
     try {
-        const promos = await Promo.find(); 
-        res.render("add_promo", { title: "Add New Promo", promos: promos }); 
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message, type: 'danger' });
-    }
-});
+        // Cari promo berdasarkan ID yang diberikan
+        const promo = await Promo.findById(req.params.id);
 
+        // Periksa apakah promo ditemukan
+        if (!promo) {
+            // Jika tidak, kirim respons 404
+            return res.status(404).json({ message: 'Promo not found', type: 'danger' });
+        }
 
-// Menangani penambahan promo baru
-router.post('/add_promo', upload, async (req, res) => {
-    try {
-        const promo = new Promo({
-            title: req.body.title,
-            description: req.body.description,
-            image: req.file.filename,
-        });
+        // Hapus foto promo dari sistem file jika ada
+        const filePath = './uploads/' + promo.image;
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        } else {
+            console.error("File not found:", filePath);
+            // Jika file tidak ditemukan, kirim respons 404
+            return res.status(404).json({ message: 'File not found', type: 'danger' });
+        }
 
-        // Menyimpan promo baru ke dalam database
-        await promo.save();
-
-        // Menyiapkan pesan untuk ditampilkan setelah berhasil menambahkan promo
+        // Hapus promo dari database
+        await Promo.findByIdAndDelete(req.params.id);
+        
+        // Set pesan bahwa promo berhasil dihapus
         req.session.message = {
-            type: 'success',
-            message: 'Promo added successfully!'
+            type: 'info',
+            message: 'Promo deleted successfully!'
         };
 
-        // Mengarahkan pengguna kembali ke halaman utama
-        res.redirect('/add_promo');
+        // Redirect ke halaman add_promo
+        res.redirect("/add_promo");
     } catch (error) {
+        // Tangani kesalahan jika ada
         console.error(error);
         res.status(500).json({ message: error.message, type: 'danger' });
     }
 });
 
+
+
+// --- Bagian Ticket ---
 // Menampilkan halaman tambah ticket
 router.get("/add_ticket", async (req, res) => {
     try {
@@ -877,20 +884,9 @@ router.post('/update_ticket/:id', upload, async (req, res) => {
     }
 });
 
-// router.get("/", async (req, res) => {
-//     try {
-//         const carousels = await Carousel.find(); // Mendapatkan data carousel dari database
-//         console.log(carousels); // Tambahkan log ini untuk memeriksa apakah data carousel berhasil diambil
-//         res.render("index", { title: "Home", carousels: carousels }); // Mengirim data carousel ke dalam template
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: error.message, type: 'danger' });
-//     }
-// });
-
-// Import model TicketBooking
 
 
+// Gatau ini paling apus
 router.post('/book_ticket', async (req, res) => {
     try {
         // Mendapatkan data tiket dari permintaan POST
@@ -921,10 +917,6 @@ router.post('/book_ticket', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
-
-
-
 
   router.post('/add_ticket', async (req, res) => {
     try {
