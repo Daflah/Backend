@@ -334,7 +334,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.get("/login", async (req, res) => {
     try {
         // Mendapatkan data rides dari database
         const rides = await Ride.find();
@@ -360,7 +360,7 @@ router.get("/", async (req, res) => {
         }
 
         // Render halaman dengan objek pesan yang didefinisikan di locals
-        res.render("index", { title: "Home", rides, promos, carousels, packages, inquireMessage, subscribeMessage, locations });
+        res.render("login", { title: "Home", rides, promos, carousels, packages, inquireMessage, subscribeMessage, locations });
     } catch (error) {
         console.error('Gagal merender halaman utama:', error);
         const inquireMessage = null; // Atur ke null jika terjadi kesalahan
